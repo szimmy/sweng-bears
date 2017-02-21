@@ -9,12 +9,13 @@ import java.io.File;
  */
 public class Controller {
 
+    private final static JFileChooser chooser = new JFileChooser();
+
     public static void main(String args[]) {
         chooseFile();
     }
 
     private static void chooseFile() {
-        JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "CMS-2Y", "cts", "ct2");
@@ -25,6 +26,12 @@ public class Controller {
                     chooser.getSelectedFile().getName());
         }
 
+        String extension = getExtension(returnVal);
+
+        System.out.println(validExtension(extension));
+    }
+
+    private static String getExtension(int returnVal) {
         String extension = "";
 
         int i = chooser.getSelectedFile().getAbsolutePath().lastIndexOf('.');
@@ -35,8 +42,10 @@ public class Controller {
             extension = chooser.getSelectedFile().getAbsolutePath().substring(i+1);
         }
 
-        if(!extension.equals("cts") && !extension.equals("ct2")) {
-            System.out.println("File extension error: " + extension + " selected.");
-        }
+        return extension;
+    }
+
+    private static boolean validExtension(String ext) {
+        return !ext.equals("cts") && !ext.equals("ct2");
     }
 }
