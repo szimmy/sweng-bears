@@ -10,10 +10,10 @@ import java.util.HashMap;
 public class FileScanner {
 
     private File file;
-    private Scan scan;
+    private ReportContent scan;
     private HashMap<String, Integer> data;
 
-    public FileScanner(File file, Scan scan) {
+    public FileScanner(File file, ReportContent scan) {
         this.file = file;
         this.scan = scan;
         this.data = new HashMap<>();
