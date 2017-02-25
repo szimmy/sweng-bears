@@ -87,6 +87,8 @@ public class FileScanner {
                     else if(getFirstToken(statement).equals("CMS-2") ||
                             getFirstToken(statement).equals("CMS-2$")){
                         //I'm counting the direct code block ending-delimiter as CMS-2, not direct code.
+                        numCMSOtherStmts++;
+                        numCMSOtherLines += numCMSOtherLines += (numLines - stmtBeginningLine) + 1;
                         inDirectBlock = false;
                     }
                     else{
@@ -101,7 +103,7 @@ public class FileScanner {
         data.put("Lines", numLines);
         data.put("Comment Statements", numCommentStmts);
         data.put("Comment Lines", numCommentLines);
-        //data.put("CMS-2Y Other Statements", numCMSOtherStmts);
+        data.put("CMS-2Y Other Statements", numCMSOtherStmts);
         //data.put("CMS-2Y Other Lines", numCMSOtherLines);
         data.put("Direct Code Comments", numDirCommentsStmts);
         data.put("Direct Code Other", numDirOther);
