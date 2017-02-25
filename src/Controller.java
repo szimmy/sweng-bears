@@ -47,7 +47,7 @@ public class Controller {
                 file.getAbsolutePath().lastIndexOf('\\'));
 
         if (i > 0 && i > p) {
-            extension = chooser.getSelectedFile().getAbsolutePath().substring(i+1);
+            extension = file.getAbsolutePath().substring(i+1);
         }
 
         return extension;
