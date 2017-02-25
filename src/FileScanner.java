@@ -101,14 +101,17 @@ public class FileScanner {
         data.put("Lines", numLines);
         data.put("Comment Statements", numCommentStmts);
         data.put("Comment Lines", numCommentLines);
-        data.put("CMS-2Y Other Statements", numCMSOtherStmts);
-        data.put("CMS-2Y Other Lines", numCMSOtherLines);
+        //data.put("CMS-2Y Other Statements", numCMSOtherStmts);
+        //data.put("CMS-2Y Other Lines", numCMSOtherLines);
         data.put("Direct Code Comments", numDirCommentsStmts);
         data.put("Direct Code Other", numDirOther);
 
         return data;
     }
 
+    /**
+     * Returns the given string with everything after the first instance of the delimiter removed.
+     */
     private String trimDelim(String line, char delimiter){ //Change the name of this, but not to trim
         int delimiterIndex = line.indexOf(delimiter);
         if(delimiterIndex == -1) {
@@ -121,6 +124,9 @@ public class FileScanner {
             return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
     }
 
+    /**
+     * Returns the original string with tabs turned into spaces
+     */
     private String transformTabs(String string){
         String[] segments = string.split("\t");
         String result = "";
