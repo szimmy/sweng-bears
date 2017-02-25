@@ -27,11 +27,16 @@ public class Controller {
         }
         System.out.println(scans.toString());
 
+        ArrayList<String> invalidFiles = new ArrayList<>();
+
         for(File f: files) {
             if(!validExtension(getExtension(f))) {
+                invalidFiles.add(f.getName());
                 System.out.println("Invalid Extension: " + getExtension(f));
             }
         }
+        
+        System.out.println("Invalid Files: " + invalidFiles.toString());
     }
 
     /**
