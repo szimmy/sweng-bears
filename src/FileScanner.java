@@ -26,7 +26,9 @@ public class FileScanner {
             String line;
             while ((line = br.readLine()) != null) {
                 // process the line
-                numLines++;
+                if(line.length() !=  0) {
+                    numLines++;
+                }
             }
         } catch(IOException ie) {
         }
