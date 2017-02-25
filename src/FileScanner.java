@@ -20,12 +20,33 @@ public class FileScanner {
     }
 
     public HashMap<String, Integer> run() {
+        // Data
         int numLines = 0;
+        int HComments = 0;
+
+        //Boolean to tell when you are currently in a high-level comment block
+        boolean Hcomment = false;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                // process the line
+                //Checks if you are currently in a high-level comment block
+                if (Hcomment == true) {
+                    //Checks if the comment block is terminated shown by '$'
+                    if (line.contains("$")) {
+                        Hcomment = false;
+                    }
+                    HComments++;
+                }
+                //If not currently in a high-level comment block, checks if one starts
+                else if (line.contains("COMMENT")) {
+                    //Checks if the block ends on the same line it started
+                    if (!line.contains("$")) {
+                        Hcomment = true;
+                    }
+                    HComments++;
+                }
+
                 if(line.length() !=  0) {
                     numLines++;
                 }
@@ -34,6 +55,7 @@ public class FileScanner {
         }
 
         data.put("Lines", numLines);
+        data.put("High level comments", HComments);
 
         return data;
     }

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
@@ -12,31 +13,38 @@ public class Controller {
     private final static JFileChooser chooser = new JFileChooser();
 
     public static void main(String args[]) {
-        chooseFile();
+        chooseFiles();
     }
 
-    private static void chooseFile() {
-        chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "CMS-2Y", "cts", "ct2");
-        chooser.setFileFilter(filter);
-        int returnVal = chooser.showOpenDialog(new JFrame());
-        if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " +
-                    chooser.getSelectedFile().getName());
+    /**
+     * Choose the files and run the scan on them.
+     */
+    private static void chooseFiles() {
+        ArrayList scans=new ArrayList();
+        File files[] = getFiles();
+        for(int i=0;i<files.length;i++) {
+            scans.add(new FileScanner(files[i], null).run());
         }
+        System.out.println(scans.toString());
 
-        String extension = getExtension(returnVal);
-
-        System.out.println(validExtension(extension));
+        for(File f: files) {
+            if(!validExtension(getExtension(f))) {
+                System.out.println("Invalid Extension: " + getExtension(f));
+            }
+        }
     }
 
-    private static String getExtension(int returnVal) {
+    /**
+     * Get the extension for a file
+     * @param file The file to get the extension of
+     * @return The extension of the file
+     */
+    private static String getExtension(File file) {
         String extension = "";
 
-        int i = chooser.getSelectedFile().getAbsolutePath().lastIndexOf('.');
-        int p = Math.max(chooser.getSelectedFile().getAbsolutePath().lastIndexOf('/'),
-                chooser.getSelectedFile().getAbsolutePath().lastIndexOf('\\'));
+        int i = file.getAbsolutePath().lastIndexOf('.');
+        int p = Math.max(file.getAbsolutePath().lastIndexOf('/'),
+                file.getAbsolutePath().lastIndexOf('\\'));
 
         if (i > 0 && i > p) {
             extension = chooser.getSelectedFile().getAbsolutePath().substring(i+1);
@@ -45,7 +53,25 @@ public class Controller {
         return extension;
     }
 
+    /**
+     * Checks if the extension is of a valid type
+     * @param ext Extension to check
+     * @return If the extension is valid
+     */
     private static boolean validExtension(String ext) {
-        return !ext.equals("cts") && !ext.equals("ct2");
+        return ext.equals("txt");
+    }
+
+    /**
+     * @author Jeffrey Lehman
+     * @Date 02 Feb 2017
+     * @return  files; an array of type File which the user has chosen using jfilechooser
+     */
+    private static File[] getFiles(){
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(true);
+        chooser.showOpenDialog(new JFrame());
+        File[] files = chooser.getSelectedFiles();
+        return files;
     }
 }
