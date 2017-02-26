@@ -14,7 +14,7 @@ public class FileScanner {
     private HashMap<String, Integer> data;
 
     /**
-     * Constructo for FileScanner. Takes in file type File, which the the file being scanned and scan type ReportContent
+     * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type ReportContent
      * which is used to store the data. Creates a new HashMap which save the data scanned.
      * @param file
      * @param scan
