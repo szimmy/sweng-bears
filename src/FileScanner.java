@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Class which scans the file for characteristics of a CMS-2Y program.
+ * Class which scans the file for characteristics of a CMS-2Y program and tracks the data it collects.
  */
 public class FileScanner {
 
@@ -13,25 +13,42 @@ public class FileScanner {
     private ReportContent scan;
     private HashMap<String, Integer> data;
 
+    /**
+     * Constructo for FileScanner. Takes in file type File, which the the file being scanned and scan type ReportContent
+     * which is used to store the data. Creates a new HashMap which save the data scanned.
+     * @param file
+     * @param scan
+     */
     public FileScanner(File file, ReportContent scan) {
         this.file = file;
         this.scan = scan;
         this.data = new HashMap<>();
     }
 
+    /**
+     * Performs a scan on the File file,
+     *
+     * @return HashMap<String, Integer> A HashMap of the data gained in the scan, <String, Integer> being the
+     * <Type of data, the number of times that type was found in the file>
+     */
     public HashMap<String, Integer> run() {
-        // Data
+        // Data, Integers to keep track of how many times each data type occurs in the File file
         int numLines = 0;
         int numCommentStmts = 0;
         int numCommentLines = 0;
         int numDirCommentsStmts = 0;
-        //This will need to be split into two in a later sprint.
+        // This will need to be split into two in a later sprint.
         int numDirOther = 0;
         int numCMSOtherStmts = 0;
         int numCMSOtherLines = 0;
 
+        // Boolean to keep track if the scan is currently in a Direct cms2 code block
         boolean inDirectBlock = false;
 
+        /**
+         * Uses BufferedReader and FileReader on File file to begin the scan.
+         * Strings line and statement are used to track and evaluate the current line and/or block of cms2 code.
+         */
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             String statement = "";
@@ -97,6 +114,7 @@ public class FileScanner {
         } catch(IOException ie) {
         }
 
+        // Puts the data into a HashMap data with the corresponding String (data type).
         data.put("Lines", numLines);
         data.put("Comment Statements", numCommentStmts);
         data.put("Comment Lines", numCommentLines);
@@ -105,6 +123,7 @@ public class FileScanner {
         data.put("Direct Code Comments", numDirCommentsStmts);
         data.put("Direct Code Other", numDirOther);
 
+        // Returns HashMap data
         return data;
     }
 
