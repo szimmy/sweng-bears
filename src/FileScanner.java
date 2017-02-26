@@ -44,27 +44,25 @@ public class FileScanner {
                 //Change tabs into spaces
                 line = transformTabs(line);
                 //Take the first ten characters off. They are not used.
-                if(line.length() > 10) {
+                if (line.length() > 10) {
                     line = line.substring(10);
-                    if(stmtBegun == false) { //May incorrectly handle labels on blank lines proceeding statements.
+                    if (stmtBegun == false) { //May incorrectly handle labels on blank lines proceeding statements.
                         stmtBeginningLine = numLines;
                         stmtBegun = true;
                     }
-                }
-                else {
+                } else {
                     line = "";
 
                 }
                 //TODO Pad the back with spaces. (?)
-                if(!inDirectBlock) {
+                if (!inDirectBlock) {
                     statement = statement.concat(trimDelim(line, '$'));
                     if (statement.contains("$")) {  //TODO Change this to check if it ends with a dollar sign. (?)
                         //Perform analysis of CMS-2Y statements here. (Not Direct Code, that is below.)
                         if (getFirstToken(statement).equals("COMMENT")) {
                             numCommentStmts++;
                             numCommentLines += (numLines - stmtBeginningLine) + 1;
-                        }
-                        else if(getFirstToken(statement).equals("DIRECT") ||
+                        } else if (getFirstToken(statement).equals("DIRECT") ||
                                 getFirstToken(statement).equals("DIRECT$")) { //I don't know if this would be legal
                             numCMSOtherStmts++; //Test this line and the next
                             numCMSOtherLines += (numLines - stmtBeginningLine) + 1;
@@ -78,25 +76,23 @@ public class FileScanner {
                         stmtBeginningLine = 0; //This seems like a dangerous default value, but should work.
                         stmtBegun = false;
                     }
-                }
-                else { //current statement is in a direct code block
+                } else { //current statement is in a direct code block
                     statement = line;
                     //Perform analysis of Direct Code statements here.
-                    if(getFirstToken(statement).equals(".")){
+                    if (getFirstToken(statement).equals(".")) {
                         numDirCommentsStmts++;
-                    }
-                    else if(getFirstToken(statement).equals("CMS-2") ||
+                    } else if (getFirstToken(statement).equals("CMS-2") ||
                             getFirstToken(statement).equals("CMS-2$")) {
                         //I'm counting the direct code block ending-delimiter as CMS-2, not direct code.
                         numCMSOtherStmts++;
                         numCMSOtherLines += (numLines - stmtBeginningLine) + 1;
                         inDirectBlock = false;
-                    }
-                    else {
+                    } else {
                         numDirOther++;
                     }
                     statement = "";
                     stmtBegun = false;
+                }
             }
         } catch(IOException ie) {
         }
@@ -124,7 +120,7 @@ public class FileScanner {
     }
     //If it is possible that the first token isn't followed by a space, needs to be changed.
     private String getFirstToken(String statement){
-            return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
+        return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
     }
 
     /**
