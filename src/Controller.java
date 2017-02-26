@@ -20,14 +20,20 @@ public class Controller {
      */
     private static void chooseFiles() {
         ArrayList scans=new ArrayList();
+        // Uses method getFiles(); to create an array files of type File
         File files[] = getFiles();
+        // Adds a HashMap of the scanned data on each File in files to an ArrayList scans by performing
+        // FileScanner.run()
         for(int i=0;i<files.length;i++) {
             scans.add(new FileScanner(files[i], null).run());
         }
+        //Prints the information scanned to the terminal from ArrayList scans
         System.out.println(scans.toString());
 
+        //An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
 
+        
         for(File f: files) {
             if(!validExtension(getExtension(f))) {
                 invalidFiles.add(f.getName());
