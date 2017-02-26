@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
  *
  * @author Sean Zimmerman
  */
+
 public class Controller {
 
     private final static JFileChooser chooser = new JFileChooser();
