@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Created by Zim on 2/22/2017.
+ * Class which scans the file for characteristics of a CMS-2Y program.
  */
 public class FileScanner {
 
@@ -20,6 +20,7 @@ public class FileScanner {
     }
 
     public HashMap<String, Integer> run() {
+        // Data
         int numLines = 0;
         int numCommentStmts = 0;
         int numCommentLines = 0;
@@ -43,19 +44,19 @@ public class FileScanner {
                 //Change tabs into spaces
                 line = transformTabs(line);
                 //Take the first ten characters off. They are not used.
-                if(line.length() > 10){
+                if(line.length() > 10) {
                     line = line.substring(10);
-                    if(stmtBegun == false){ //May incorrectly handle labels on blank lines proceeding statements.
+                    if(stmtBegun == false) { //May incorrectly handle labels on blank lines proceeding statements.
                         stmtBeginningLine = numLines;
                         stmtBegun = true;
                     }
                 }
-                else{
+                else {
                     line = "";
 
                 }
                 //TODO Pad the back with spaces. (?)
-                if(! inDirectBlock) {
+                if(!inDirectBlock) {
                     statement = statement.concat(trimDelim(line, '$'));
                     if (statement.contains("$")) {  //TODO Change this to check if it ends with a dollar sign. (?)
                         //Perform analysis of CMS-2Y statements here. (Not Direct Code, that is below.)
@@ -64,11 +65,11 @@ public class FileScanner {
                             numCommentLines += (numLines - stmtBeginningLine) + 1;
                         }
                         else if(getFirstToken(statement).equals("DIRECT") ||
-                                getFirstToken(statement).equals("DIRECT$")){ //I don't know if this would be legal
+                                getFirstToken(statement).equals("DIRECT$")) { //I don't know if this would be legal
                             numCMSOtherStmts++; //Test this line and the next
                             numCMSOtherLines += (numLines - stmtBeginningLine) + 1;
                             inDirectBlock = true;
-                        }else{
+                        } else {
                             numCMSOtherStmts++; //Test this line and the next
                             numCMSOtherLines += (numLines - stmtBeginningLine) + 1;
                         }
@@ -78,25 +79,24 @@ public class FileScanner {
                         stmtBegun = false;
                     }
                 }
-                else{ //current statement is in a direct code block
+                else { //current statement is in a direct code block
                     statement = line;
                     //Perform analysis of Direct Code statements here.
                     if(getFirstToken(statement).equals(".")){
                         numDirCommentsStmts++;
                     }
                     else if(getFirstToken(statement).equals("CMS-2") ||
-                            getFirstToken(statement).equals("CMS-2$")){
+                            getFirstToken(statement).equals("CMS-2$")) {
                         //I'm counting the direct code block ending-delimiter as CMS-2, not direct code.
                         numCMSOtherStmts++;
                         numCMSOtherLines += (numLines - stmtBeginningLine) + 1;
                         inDirectBlock = false;
                     }
-                    else{
+                    else {
                         numDirOther++;
                     }
                     statement = "";
                     stmtBegun = false;
-                }
             }
         } catch(IOException ie) {
         }
