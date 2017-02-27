@@ -139,7 +139,10 @@ public class FileScanner {
     }
     //If it is possible that the first token isn't followed by a space, needs to be changed.
     private String getFirstToken(String statement){
-        return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
+        if(statement.trim().indexOf(" ") != -1){
+            return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
+    }
+        return statement.trim();
     }
 
     /**
@@ -151,7 +154,10 @@ public class FileScanner {
         for(String seg : segments){
             result = result.concat(seg + "    ");
         }
-        result = result.substring(0, result.length() - 4);
-        return result;
+        if(result.length() >= 4) {
+            result = result.substring(0, result.length() - 4);
+            return result;
+        }
+        return result; //check.
     }
 }
