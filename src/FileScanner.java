@@ -158,6 +158,6 @@ public class FileScanner {
             result = result.substring(0, result.length() - 4);
             return result;
         }
-        return result; //check.
+        return string; //check.
     }
 }
