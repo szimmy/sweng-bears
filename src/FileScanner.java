@@ -96,9 +96,10 @@ public class FileScanner {
                 } else { //current statement is in a direct code block
                     statement = line;
                     //Perform analysis of Direct Code statements here.
-                    if (getFirstToken(statement).equals(".")) {
+                    if (statement.contains(".")) { //Make sure "." is right, not ". ", , " .", or " . "
                         numDirCommentsStmts++;
-                    } else if (getFirstToken(statement).equals("CMS-2") ||
+                    }
+                    if (getFirstToken(statement).equals("CMS-2") ||
                             getFirstToken(statement).equals("CMS-2$")) {
                         //I'm counting the direct code block ending-delimiter as CMS-2, not direct code.
                         numCMSOtherStmts++;
