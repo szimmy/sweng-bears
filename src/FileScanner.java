@@ -36,6 +36,8 @@ public class FileScanner {
         int numLines = 0;
         int numCommentStmts = 0;
         int numCommentLines = 0;
+        int numGotoStmts = 0;
+        int numGotoLines = 0;
         int numDirCommentsStmts = 0;
         // This will need to be split into two in a later sprint.
         int numDirOther = 0;
@@ -79,6 +81,9 @@ public class FileScanner {
                         if (getFirstToken(statement).equals("COMMENT")) {
                             numCommentStmts++;
                             numCommentLines += (numLines - stmtBeginningLine) + 1;
+                        } else if (getFirstToken(statement).equals("GOTO")) {
+                            numGotoStmts++;
+                            numGotoLines += (numLines - stmtBeginningLine) + 1;
                         } else if (getFirstToken(statement).equals("DIRECT") ||
                                 getFirstToken(statement).equals("DIRECT$")) { //I don't know if this would be legal
                             numCMSOtherStmts++; //Test this line and the next
@@ -118,6 +123,8 @@ public class FileScanner {
         data.put("Lines", numLines);
         data.put("Comment Statements", numCommentStmts);
         data.put("Comment Lines", numCommentLines);
+        data.put("Goto Statements", numGotoStmts);
+        data.put("Goto Lines", numGotoLines);
         data.put("CMS-2Y Other Statements", numCMSOtherStmts);
         data.put("CMS-2Y Other Lines", numCMSOtherLines);
         data.put("Direct Code Comments", numDirCommentsStmts);
