@@ -12,16 +12,16 @@ public class Controller {
     private final static JFileChooser chooser = new JFileChooser();
 
     public static void main(String args[]) {
-        chooseFiles();
+        chooseFiles(args);
     }
 
     /**
      * Choose the files and run the scan on them.
      */
-    private static void chooseFiles() {
+    private static void chooseFiles(String [] args) {
         ArrayList scans=new ArrayList();
         // Uses method getFiles(); to create an array files of type File
-        File files[] = getFiles();
+        File files[] = getFiles(args);
         // Adds a HashMap of the scanned data on each File in files to an ArrayList scans by performing
         // FileScanner.run()
         for(int i=0;i<files.length;i++) {
@@ -75,15 +75,22 @@ public class Controller {
     }
 
     /**
-     * @author Jeffrey Lehman
+     * @author Jeffrey Lehman (updated by Alexander Mendelsohn)
      * @Date 02 Feb 2017
      * @return  files; an array of type File which the user has chosen using jfilechooser
      */
-    private static File[] getFiles(){
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.showOpenDialog(new JFrame());
-        File[] files = chooser.getSelectedFiles();
+    private static File[] getFiles(String [] args){
+        if (args.length == 0) {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showOpenDialog(new JFrame());
+            File[] files = chooser.getSelectedFiles();
+            return files;
+        }
+        File[] files = new File[args.length];
+        for (int i = 0; i < args.length; i++) {
+            files[i] = new File(args[i]);
+        }
         return files;
     }
 }
