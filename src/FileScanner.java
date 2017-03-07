@@ -1,3 +1,4 @@
+import Reports.Report;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,18 +9,17 @@ import java.util.HashMap;
  * Class which scans the file for characteristics of a CMS-2Y program and tracks the data it collects.
  */
 public class FileScanner {
-
     private File file;
-    private ReportContent scan;
+    private Report scan;
     private HashMap<String, Integer> data;
 
     /**
-     * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type ReportContent
+     * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
      * which is used to store the data. Creates a new HashMap which save the data scanned.
      * @param file
      * @param scan
      */
-    public FileScanner(File file, ReportContent scan) {
+    public FileScanner(File file, Report scan) {
         this.file = file;
         this.scan = scan;
         this.data = new HashMap<>();
