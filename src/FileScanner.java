@@ -36,6 +36,8 @@ public class FileScanner {
         int numLines = 0;
         int numCommentStmts = 0;
         int numCommentLines = 0;
+        int numDataStmts = 0;
+        int numDataLines = 0;
         int numGotoStmts = 0;
         int numGotoLines = 0;
         int numDirCommentsStmts = 0;
@@ -81,6 +83,13 @@ public class FileScanner {
                         if (getFirstToken(statement).equals("COMMENT")) {
                             numCommentStmts++;
                             numCommentLines += (numLines - stmtBeginningLine) + 1;
+                        } else if (getFirstToken(statement).equals("VRBL")
+                                || getFirstToken(statement).equals("TABLE")
+                                || getFirstToken(statement).equals("END-TABLE")
+                                || getFirstToken(statement).equals("FIELD")
+                                || getFirstToken(statement).equals("ITEM-AREA")) {
+                            numDataStmts++;
+                            numDataLines += (numLines - stmtBeginningLine) + 1;
                         } else if (getFirstToken(statement).equals("GOTO")) {
                             numGotoStmts++;
                             numGotoLines += (numLines - stmtBeginningLine) + 1;
@@ -123,6 +132,8 @@ public class FileScanner {
         data.put("Lines", numLines);
         data.put("Comment Statements", numCommentStmts);
         data.put("Comment Lines", numCommentLines);
+        data.put("Data Statements", numDataStmts);
+        data.put("Data Lines", numDataLines);
         data.put("Goto Statements", numGotoStmts);
         data.put("Goto Lines", numGotoLines);
         data.put("CMS-2Y Other Statements", numCMSOtherStmts);
