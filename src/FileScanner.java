@@ -87,7 +87,11 @@ public class FileScanner {
                                 || getFirstToken(statement).equals("TABLE")
                                 || getFirstToken(statement).equals("END-TABLE")
                                 || getFirstToken(statement).equals("FIELD")
-                                || getFirstToken(statement).equals("ITEM-AREA")) {
+                                || getFirstToken(statement).equals("ITEM-AREA")
+                                || getFirstToken(statement).equals("TYPE")
+                                || getFirstToken(statement).equals("END-TYPE")
+                                || getFirstToken(statement).equals("SUB-TABLE")
+                                || getFirstToken(statement).equals("SUBTABLE")) {
                             numDataStmts++;
                             numDataLines += (numLines - stmtBeginningLine) + 1;
                         } else if (getFirstToken(statement).equals("GOTO")) {
