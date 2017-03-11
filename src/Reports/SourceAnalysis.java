@@ -39,7 +39,7 @@ public class SourceAnalysis extends Report {
      * Generate the report for the given Report.
      * @return The correctly formatted report.
      */
-    public String generateReport(String[] columnNames, Object[][] data) {
+    public String generateReport() {
         return ""; // TODO
     }
 }
