@@ -1,5 +1,6 @@
 package Reports;
 
+import Report.Column;
 import Scans.Scan;
 import java.util.ArrayList;
 
@@ -36,10 +37,10 @@ public class SourceAnalysis extends Report {
     }
 
     /**
-     * Generate the report for the given Report.
-     * @return The correctly formatted report.
+     * Generate the columns for the given Report.
+     * @return The columns to be used for the report.
      */
-    public String generateReport() {
-        return ""; // TODO
+    public ArrayList<Column> generateReportColumns() {
+        return new ArrayList<Column>(); // TODO
     }
 }
