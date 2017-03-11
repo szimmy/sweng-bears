@@ -30,7 +30,7 @@ public abstract class Report {
      * Generate the report for the given Report.
      * @return The correctly formatted report.
      */
-    public abstract String generateReport();
+    public abstract String generateReport(String[] columnNames, Object[][] data);
 
     public String getTITLE() {
         return this.TITLE;
