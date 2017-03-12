@@ -13,6 +13,7 @@ public class FileScanner {
 
     private StatementReader stmtReader;
     private HashMap<String, Integer> data;
+    //Scanners here
     private CommentScanner commentScanner;
     private DirCommentScanner dirCommentScanner;
 
@@ -30,18 +31,17 @@ public class FileScanner {
     public HashMap<String, Integer> run() {
 
         for(Statement stmt : stmtReader.getStatements()){
-            System.out.println(stmt.getText());
             commentScanner.scan(stmt);
             dirCommentScanner.scan(stmt);
         }
 
         data.put("Lines", stmtReader.numLines());
-        //The lines below are temporary. This function should be changed to return a Report, not a HashMap
+        //The lines below are temporary. This function should be changed to return a Report (I think), not a HashMap
         data.put("Comment Statements", commentScanner.getData().get(0).getValue());
         data.put("Comment Lines", commentScanner.getData().get(1).getValue());
         data.put("Direct Comment Statements", dirCommentScanner.getData().get(0).getValue());
 
-    // Returns HashMap data
+        // Returns HashMap data
         return data;
     }
 }

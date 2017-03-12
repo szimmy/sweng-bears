@@ -16,6 +16,10 @@ public abstract class LineScan extends Scan {
     //Used to prevent counting multiple statements of the same type on the same line as multiple lines
     private int lastLineTallied = -1;
 
+    /**
+     * Updates lineCount. Will not count two statements on the same line as two lines.
+     * @param statement
+     */
     protected void tallyLines(Statement statement){
         int result = statement.getNumLines();
         if(statement.getBeginningLine() == lastLineTallied){
