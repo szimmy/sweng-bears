@@ -1,3 +1,6 @@
+import CMS2Statements.Statement;
+import CMS2Statements.StatementReader;
+
 import java.io.File;
 import java.util.HashMap;
 
@@ -33,11 +36,7 @@ public class FileScanner {
         this.numDirOther = 0;
         //this.numCMSOtherStmts = 0;
         //this.numCMSOtherLines = 0;
-
-        for(int stmtIndex = 0; stmtIndex < stmtReader.numStmts(); stmtIndex++){
-            System.out.println(stmtReader.getStatement(stmtIndex).getText());
-            testCommentScan(stmtReader.getStatement(stmtIndex));
-        }
+        
 
         // Puts the data into a HashMap data with the corresponding String (data type).
         data.put("Lines", stmtReader.numLines());
@@ -50,21 +49,5 @@ public class FileScanner {
 
     // Returns HashMap data
         return data;
-    }
-    //If it is possible that the first token isn't followed by a space, needs to be changed.
-    private String getFirstToken(String statement){
-        if(statement.trim().indexOf(" ") != -1){
-            return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
-        }
-        return statement.trim();
-    }
-
-    private void testCommentScan(Statement statement){
-        if(!statement.isDirectCode()){
-            if(getFirstToken(statement.getText()).equals("COMMENT")){
-                numCommentStmts++;
-                numCommentLines += statement.getNumLines();
-            }
-        }
     }
 }

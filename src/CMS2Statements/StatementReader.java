@@ -1,3 +1,7 @@
+package CMS2Statements;
+
+import CMS2Statements.Statement;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

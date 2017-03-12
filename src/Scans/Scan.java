@@ -2,6 +2,7 @@ package Scans;
 
 import Reports.Entry;
 import java.util.ArrayList;
+import CMS2Statements.Statement;
 
 /**
  * Abstract class which creates the framework for scans to be built off of.
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public abstract class Scan {
     // Keyword: used to identify the type of scan being used.
     // This is what will be reported in the column header of the generated report.
-    protected final String KEYWORD = "";
+    protected String KEYWORD = "";
 
     // Count: The number of statements that have met the criteria of this Scan.
     protected int count;
@@ -22,7 +23,7 @@ public abstract class Scan {
      * Runs the designated scan on the statement.
      * @param statement The statement to be scanned
      */
-    public abstract void scan(String statement);
+    public abstract void scan(Statement statement);
 
     public String getKEYWORD() {
         return this.KEYWORD;
@@ -41,4 +42,12 @@ public abstract class Scan {
      * @return The data from the Scan.
      */
     public abstract ArrayList<Entry> getData();
+
+    //If it is possible that the first token isn't followed by a space, needs to be changed.
+    protected String getFirstToken(String statement){
+        if(statement.trim().indexOf(" ") != -1){
+            return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
+        }
+        return statement.trim();
+    }
 }
