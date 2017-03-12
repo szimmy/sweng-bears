@@ -1,8 +1,9 @@
-import CMS2Statements.Statement;
 import CMS2Statements.StatementReader;
-
+import CMS2Statements.Statement;
 import java.io.File;
 import java.util.HashMap;
+import Scans.CommentScanner;
+
 
 /**
  * Class which scans the file for characteristics of a CMS-2Y program and tracks the data it collects.
@@ -11,9 +12,8 @@ public class FileScanner {
 
     private StatementReader stmtReader;
     private HashMap<String, Integer> data;
-    private int numCommentStmts;
-    private int numCommentLines;
-    private int numDirCommentsStmts;
+    private CommentScanner commentScanner;
+    private int numDirCommentStmts;
     // These will need to be split into two in a later sprint.
     private int numDirOther;
     //private int numCMSOtherStmts;
@@ -21,6 +21,7 @@ public class FileScanner {
 
     public FileScanner(File file, ReportContent scan) {
         this.stmtReader = new StatementReader(file);
+        this.commentScanner = new CommentScanner();
         this.data = new HashMap<>();
     }
 
@@ -30,22 +31,25 @@ public class FileScanner {
      */
     public HashMap<String, Integer> run() {
         // Data, Integers to keep track of how many times each data type occurs in the File file
-        this.numCommentStmts = 0;
-        this.numCommentLines = 0;
-        this.numDirCommentsStmts = 0;
+        this.numDirCommentStmts = 0;
         this.numDirOther = 0;
         //this.numCMSOtherStmts = 0;
         //this.numCMSOtherLines = 0;
-        
 
-        // Puts the data into a HashMap data with the corresponding String (data type).
+        for(Statement stmt : stmtReader.getStatements()){
+            //System.out.println(stmt.getText());
+            commentScanner.scan(stmt);
+        }
+
         data.put("Lines", stmtReader.numLines());
-        data.put("Comment Statements", numCommentStmts);
-        data.put("Comment Lines", numCommentLines);
+        //The lines below are temporary. This function should be changed to return a Report, not a HashMap
+        data.put("Comment Statements", commentScanner.getData().get(0).getValue());
+        data.put("Comment Lines", commentScanner.getData().get(1).getValue());
+
         //data.put("CMS-2Y Other Statements", numCMSOtherStmts);
         //data.put("CMS-2Y Other Lines", numCMSOtherLines);
-        data.put("Direct Code Comments", numDirCommentsStmts);
-        data.put("Direct Code Other", numDirOther);
+        //data.put("Direct Code Comments", numDirCommentStmts);
+        //data.put("Direct Code Other", numDirOther);
 
     // Returns HashMap data
         return data;

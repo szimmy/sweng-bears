@@ -99,6 +99,10 @@ public class StatementReader {
         return statements.get(index);
     }
 
+    public ArrayList<Statement> getStatements(){
+        return statements;
+    }
+
     /**
      * Returns the given string with everything after the first instance of the delimiter removed.
      */

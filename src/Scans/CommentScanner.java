@@ -1,15 +1,8 @@
 package Scans;
 
 import CMS2Statements.Statement;
-import Reports.Entry;
 
-import java.util.ArrayList;
-
-/**
- * Created by Jay on 3/11/2017.
- */
-public class CommentScanner extends Scan {
-    private int lineCount;
+public class CommentScanner extends LineScan {
     public CommentScanner(){
         KEYWORD = "Comment";
         count = 0;
@@ -20,13 +13,8 @@ public class CommentScanner extends Scan {
         if(!statement.isDirectCode()){
             if(getFirstToken(statement.getText()).equals("COMMENT")){
                 count++;
-                lineCount += statement.getNumLines();//TODO fix double counting issue.
+                tallyLines(statement);
             }
         }
     }
-
-    public ArrayList<Entry> getData() { //TODO
-        return null;
-    }
-
 }
