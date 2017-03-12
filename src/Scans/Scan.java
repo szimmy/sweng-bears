@@ -13,10 +13,10 @@ import java.util.ArrayList;
 public abstract class Scan {
     // Keyword: used to identify the type of scan being used.
     // This is what will be reported in the column header of the generated report.
-    private final String KEYWORD = "";
+    protected final String KEYWORD = "";
 
     // Count: The number of statements that have met the criteria of this Scan.
-    private int count;
+    protected int count;
 
     /**
      * Runs the designated scan on the statement.
