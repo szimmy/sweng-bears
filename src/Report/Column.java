@@ -14,15 +14,17 @@ public class Column {
     // The data of the column
     private ArrayList<String> data;
     private boolean rightJustify;
+    private boolean headerRightJustify;
     private int width;
 
     // For printf the format is "%-xs" for left justify and "%xs" for right justify
     // x is the number of characters in the column. Spaces will be used for padding
 
-    public Column(boolean rightJustify, int width) {
+    public Column(boolean rightJustify, boolean headerRightJustify, int width) {
         data = new ArrayList<String>();
 
         this.rightJustify = rightJustify;
+        this.headerRightJustify = headerRightJustify;
         this.width = width;
     }
 
@@ -40,10 +42,18 @@ public class Column {
      * @return The correctly formatted value in row num
      */
     public String getFormattedRowNum(int num) {
-        if(rightJustify) {
-            return padLeft(data.get(num), width);
+        if(num >= 2) {
+            if(rightJustify) {
+                return padLeft(data.get(num), width);
+            } else {
+                return padRight(data.get(num), width);
+            }
         } else {
-            return padRight(data.get(num), width);
+            if(headerRightJustify) {
+                return padLeft(data.get(num), width);
+            } else {
+                return padRight(data.get(num), width);
+            }
         }
     }
 
