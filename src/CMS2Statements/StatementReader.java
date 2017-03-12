@@ -150,7 +150,9 @@ public class StatementReader {
             result.add(trimDelim(string, delimiter));
             string = afterDelim(string, delimiter);
         }
-        result.add(string);
+        if(!string.trim().equals("")){
+            result.add(string);
+        }
         return result;
     }
 }
