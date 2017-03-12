@@ -9,13 +9,13 @@ public class Statement {
     int endingLine;
     boolean directCode;
 
-    public Statement(){
-        text = "";
-        beginningLine = 0;
-        endingLine = 0;
-        directCode = false;
-    }
-
+    /**
+     *
+     * @param text              The text of a statement
+     * @param beginningLine     The line the statement begins on
+     * @param endingLine        The line the statement end on
+     * @param directCode        Whether this statement is in a direct code block
+     */
     public Statement(String text, int beginningLine, int endingLine, boolean directCode){
         this.text = text;
         this.beginningLine = beginningLine;
@@ -27,32 +27,16 @@ public class Statement {
         return text;
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public int getBeginningLine() {
         return beginningLine;
-    }
-
-    public void setBeginningLine(int beginningLine) {
-        this.beginningLine = beginningLine;
     }
 
     public int getEndingLine() {
         return endingLine;
     }
 
-    public void setEndingLine(int endingLine) {
-        this.endingLine = endingLine;
-    }
-
     public boolean isDirectCode() {
         return directCode;
-    }
-
-    public void setDirectCode(boolean directCode) {
-        this.directCode = directCode;
     }
 
     public int getNumLines(){
