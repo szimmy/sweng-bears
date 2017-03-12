@@ -46,7 +46,7 @@ public class SourceAnalysis extends Report {
         Column nameColumn = new Column(false, false, 10);
 
         nameColumn.addData("");
-        nameColumn.addData("Name");
+        nameColumn.addData("  Name");
         nameColumn.addData("---------");
 
         data.add(nameColumn);
@@ -61,8 +61,8 @@ public class SourceAnalysis extends Report {
 
         Column execstsmt = new Column(true, false, 6);
 
-        execstsmt.addData("Exec");
-        execstsmt.addData("Stmts");
+        execstsmt.addData(" Exec");
+        execstsmt.addData(" Stmts");
         execstsmt.addData("------");
 
         data.add(execstsmt);
@@ -125,16 +125,16 @@ public class SourceAnalysis extends Report {
 
         Column execstmtsdir = new Column(true, false, 6);
 
-        execstmtsdir.addData("Exec");
-        execstmtsdir.addData("Stmts");
+        execstmtsdir.addData(" Exec");
+        execstmtsdir.addData(" Stmts");
         execstmtsdir.addData("------");
 
         data.add(execstmtsdir);
 
         Column datastmtsdir = new Column(true, false, 6);
 
-        datastmtsdir.addData("Data");
-        datastmtsdir.addData("Stmts");
+        datastmtsdir.addData(" Data");
+        datastmtsdir.addData(" Stmts");
         datastmtsdir.addData("------");
 
         data.add(datastmtsdir);
@@ -149,8 +149,8 @@ public class SourceAnalysis extends Report {
 
         Column execstmtstotal = new Column(true, false, 7);
 
-        execstmtstotal.addData("Exec");
-        execstmtstotal.addData("Stmts");
+        execstmtstotal.addData(" Exec");
+        execstmtstotal.addData(" Stmts");
         execstmtstotal.addData("-------");
 
         data.add(execstmtstotal);

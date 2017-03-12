@@ -13,7 +13,7 @@ public class ReportTest {
         Column nameColumn = new Column(false, false, 10);
 
         nameColumn.addData("");
-        nameColumn.addData("Name");
+        nameColumn.addData("  Name");
         nameColumn.addData("---------");
         nameColumn.addData("MAI4E1");
         nameColumn.addData("MAL4E1");
@@ -34,8 +34,8 @@ public class ReportTest {
 
         Column execstsmt = new Column(true, false, 6);
 
-        execstsmt.addData("Exec");
-        execstsmt.addData("Stmts");
+        execstsmt.addData(" Exec");
+        execstsmt.addData(" Stmts");
         execstsmt.addData("------");
         execstsmt.addData("369");
         execstsmt.addData("415");
@@ -122,8 +122,8 @@ public class ReportTest {
 
         Column execstmtsdir = new Column(true, false, 6);
 
-        execstmtsdir.addData("Exec");
-        execstmtsdir.addData("Stmts");
+        execstmtsdir.addData(" Exec");
+        execstmtsdir.addData(" Stmts");
         execstmtsdir.addData("------");
         execstmtsdir.addData("1");
         execstmtsdir.addData("8");
@@ -133,8 +133,8 @@ public class ReportTest {
 
         Column datastmtsdir = new Column(true, false, 6);
 
-        datastmtsdir.addData("Data");
-        datastmtsdir.addData("Stmts");
+        datastmtsdir.addData(" Data");
+        datastmtsdir.addData(" Stmts");
         datastmtsdir.addData("------");
         datastmtsdir.addData("72");
         datastmtsdir.addData("0");
@@ -155,8 +155,8 @@ public class ReportTest {
 
         Column execstmtstotal = new Column(true, false, 7);
 
-        execstmtstotal.addData("Exec");
-        execstmtstotal.addData("Stmts");
+        execstmtstotal.addData(" Exec");
+        execstmtstotal.addData(" Stmts");
         execstmtstotal.addData("-------");
         execstmtstotal.addData("370");
         execstmtstotal.addData("423");
