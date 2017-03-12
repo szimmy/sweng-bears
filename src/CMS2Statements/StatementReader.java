@@ -8,16 +8,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Jay on 3/3/2017.
- */
+
 public class StatementReader {
     private File file;
     private ArrayList<Statement> statements;
     private int lineNum;
 
     /**
-     *
+     * Separates a file into a list of statements
      */
     public StatementReader(File file) {
         this.file = file;
@@ -27,7 +25,7 @@ public class StatementReader {
     }
 
     /**
-     *
+     * Populates the list of statements and sets lineNum
      */
     public void build() {
         // Boolean to keep track if the scan is currently in a Direct Code block
@@ -142,6 +140,11 @@ public class StatementReader {
         return string; //check.
     }
 
+    /**
+     *
+     * Returns everything after the first instance of the delimiter, or the whole string if it
+     * does not contain the delimiter
+     */
     private String afterDelim(String string, char delimiter){
         if(string.indexOf(delimiter) > -1){
             return string.substring(string.indexOf(delimiter) + 1);
