@@ -49,7 +49,12 @@ public class StatementReader {
                 } else {
                     line = "";
                 }
-                ArrayList<String> parts = divide(line, '$');
+                ArrayList<String> parts = new ArrayList<String>();
+                parts.add(line);
+                if(!inDirectBlock) {
+                    parts = divide(line, '$');
+                }
+
                 for(String part : parts) {
                     if(stmtStartLine == -1){
                         stmtStartLine = lineNum;
