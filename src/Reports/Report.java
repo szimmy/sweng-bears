@@ -23,6 +23,8 @@ public abstract class Report {
     // Title of the report to be used in the report.
     protected final String TITLE = "";
 
+    protected String header;
+
     // Any generated reports will be added below.
     public static Report sourceAnalysis = new SourceAnalysis();
 
@@ -81,5 +83,9 @@ public abstract class Report {
         }
 
         return result;
+    }
+
+    public String getHeader() {
+        return this.header;
     }
 }

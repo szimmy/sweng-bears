@@ -33,6 +33,17 @@ public class SourceAnalysis extends Report {
     public SourceAnalysis() {
         this.scans = new ArrayList<Scan>();
 
+        // The header String for the report
+        header = Column.padLeft("Source Analysis Summary", 78);
+        header += "\n";
+        header += "               +----------------- High Level CMS-2 ------------------+";
+        header += " +-- CMS-2 DIRECT --+";
+        header += " +--- Total ---+";
+
+        // TODO add the rest of the header
+
+
+
         // TODO when scan classes are created add them into here for testing (for source analysis)
     }
 
