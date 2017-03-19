@@ -40,10 +40,6 @@ public class SourceAnalysis extends Report {
         header += " +-- CMS-2 DIRECT --+";
         header += " +--- Total ---+";
 
-        // TODO add the rest of the header
-
-
-
         // TODO when scan classes are created add them into here for testing (for source analysis)
     }
 

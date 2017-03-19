@@ -1,18 +1,23 @@
+import CMS2Statements.StatementReader;
+import CMS2Statements.Statement;
 import Reports.Report;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
+import Scans.CommentScanner;
+import Scans.DirCommentScanner;
+
 
 /**
  * Class which scans the file for characteristics of a CMS-2Y program and tracks the data it collects.
  */
 public class FileScanner {
+
+    private StatementReader stmtReader;
     private File file;
     private Report scan;
-    private HashMap<String, Integer> data;
 
+    private HashMap<String, Integer> data;
+ 
     /**
      * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
      * which is used to store the data. Creates a new HashMap which save the data scanned.
@@ -20,18 +25,32 @@ public class FileScanner {
      * @param scan
      */
     public FileScanner(File file, Report scan) {
+        this.stmtReader = new StatementReader(file);
         this.file = file;
         this.scan = scan;
         this.data = new HashMap<>();
     }
 
     /**
-     * Performs a scan on the File file,
-     *
      * @return HashMap<String, Integer> A HashMap of the data gained in the scan, <String, Integer> being the
      * <Type of data, the number of times that type was found in the file>
      */
     public HashMap<String, Integer> run() {
+        for(Statement stmt : stmtReader.getStatements()){
+            commentScanner.scan(stmt);
+            dirCommentScanner.scan(stmt);
+        }
+
+        data.put("Lines", stmtReader.numLines());
+        //The lines below are temporary. This function should be changed to return a Report (I think), not a HashMap
+        data.put("Comment Statements", commentScanner.getData().get(0).getValue());
+        data.put("Comment Lines", commentScanner.getData().get(1).getValue());
+        data.put("Direct Comment Statements", dirCommentScanner.getData().get(0).getValue());
+      
+        /*
+        * Old code below, used for reference until everything is properly converted into scanners
+        */
+        /*
         // Data, Integers to keep track of how many times each data type occurs in the File file
         int numLines = 0;
         int numCommentStmts = 0;
@@ -49,10 +68,9 @@ public class FileScanner {
         // Boolean to keep track if the scan is currently in a Direct cms2 code block
         boolean inDirectBlock = false;
 
-        /**
-         * Uses BufferedReader and FileReader on File file to begin the scan.
-         * Strings line and statement are used to track and evaluate the current line and/or block of cms2 code.
-         */
+        
+         // Uses BufferedReader and FileReader on File file to begin the scan.
+         // Strings line and statement are used to track and evaluate the current line and/or block of cms2 code.
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             String statement = "";
@@ -144,42 +162,9 @@ public class FileScanner {
         data.put("CMS-2Y Other Lines", numCMSOtherLines);
         data.put("Direct Code Comments", numDirCommentsStmts);
         data.put("Direct Code Other", numDirOther);
+      */
 
         // Returns HashMap data
         return data;
-    }
-
-    /**
-     * Returns the given string with everything after the first instance of the delimiter removed.
-     */
-    private String trimDelim(String line, char delimiter){ //Change the name of this, but not to trim
-        int delimiterIndex = line.indexOf(delimiter);
-        if(delimiterIndex == -1) {
-            return line;
-        }
-        return line.substring(0, delimiterIndex + 1);
-    }
-    //If it is possible that the first token isn't followed by a space, needs to be changed.
-    private String getFirstToken(String statement){
-        if(statement.trim().indexOf(" ") != -1){
-            return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
-    }
-        return statement.trim();
-    }
-
-    /**
-     * Returns the original string with tabs turned into spaces
-     */
-    private String transformTabs(String string){
-        String[] segments = string.split("\t");
-        String result = "";
-        for(String seg : segments){
-            result = result.concat(seg + "    ");
-        }
-        if(result.length() >= 4) {
-            result = result.substring(0, result.length() - 4);
-            return result;
-        }
-        return string; //check.
     }
 }
