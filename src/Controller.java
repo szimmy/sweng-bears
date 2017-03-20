@@ -3,6 +3,8 @@ import java.io.File;
 import java.util.ArrayList;
 import Report.Column;
 import Reports.Report;
+import Reports.SourceAnalysis;
+
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
  *
@@ -14,7 +16,11 @@ public class Controller {
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
     public static void main(String args[]) {
+        long startTime = System.nanoTime();
         chooseFiles(args);
+        long endTime = System.nanoTime();
+        long output = endTime - startTime;
+        System.out.println("Elapsed time in milliseconds: " + output / 1000000);
         System.exit(0);
     }
 
@@ -29,7 +35,7 @@ public class Controller {
         // FileScanner.run()
         for(int i=0;i<files.length;i++) {
             if(validExtension(getExtension(files[i]))) {
-                scans.add(new FileScanner(files[i], Report.sourceAnalysis).run()); // run source analysis as default for now
+                scans.add(new FileScanner(files[i], new SourceAnalysis()).run()); // run source analysis as default for now
             }
         }
 
