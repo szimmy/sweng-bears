@@ -1,7 +1,8 @@
 package Reports;
 
 import Report.Column;
-import Scans.Scan;
+import Scans.*;
+
 import java.util.ArrayList;
 
 /**
@@ -31,6 +32,8 @@ public class SourceAnalysis extends Report {
     private final String TITLE = "Source Analysis Summary";
 
     public SourceAnalysis() {
+        this.totalLinesArrayPos = 14;
+
         this.scans = new ArrayList<Scan>();
 
         // The header String for the report
@@ -40,7 +43,18 @@ public class SourceAnalysis extends Report {
         header += " +-- CMS-2 DIRECT --+";
         header += " +--- Total ---+";
 
-        // TODO when scan classes are created add them into here for testing (for source analysis)
+        scans.add(new HighLevelExecScanner());
+        scans.add(new HighLevelDataScanner());
+        scans.add(new CommentScanner());
+        scans.add(new HighLevelNonCommentScanner());
+        scans.add(new HighLevelOtherScanner());
+        scans.add(new DirectExecScanner());
+        scans.add(new DirectDataScanner());
+        scans.add(new CommentScanner());
+        scans.add(new TotalExecScanner());
+        scans.add(new TotalCSWTCScanner());
+        scans.add(new TotalMXLVScanner());
+        scans.add(new TotalDelimtStmtsScanner());
     }
 
     /**

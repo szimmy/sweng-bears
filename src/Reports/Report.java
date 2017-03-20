@@ -25,14 +25,24 @@ public abstract class Report {
 
     protected String header;
 
+    protected int totalLinesArrayPos;
+
     // Any generated reports will be added below.
     public static Report sourceAnalysis = new SourceAnalysis();
+
+    public int getTotalLinesArrayPos() {
+        return totalLinesArrayPos;
+    }
 
     /**
      * Generate the columns for the given Report.
      * @return The columns to be used for the report.
      */
     public abstract ArrayList<Column> generateReportColumns();
+
+    public ArrayList<Scan> getScans() {
+        return this.scans;
+    }
 
     public String getTITLE() {
         return this.TITLE;
@@ -45,7 +55,7 @@ public abstract class Report {
      * @param header Any additional information to be printed onto the report
      * @param data The data to be printed
      */
-    public void reportGeneration(String header, ArrayList<Column> data) {
+    public static void reportGeneration(String header, ArrayList<Column> data) {
         /*
          To convert this to just a String return just append "\n" at the end of every line
          instead of System.out.println(line) after the nested loop.
@@ -75,7 +85,7 @@ public abstract class Report {
      * @param num The number of spaces to create
      * @return The String with the number of spaces
      */
-    public String numSpaces(int num) {
+    public static String numSpaces(int num) {
         String result = "";
 
         for(int i = 0; i < num; i++) {

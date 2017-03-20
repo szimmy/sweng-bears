@@ -1,11 +1,11 @@
 import CMS2Statements.StatementReader;
 import CMS2Statements.Statement;
+import Reports.Entry;
 import Reports.Report;
-import java.io.File;
-import java.util.HashMap;
-import Scans.CommentScanner;
-import Scans.DirCommentScanner;
+import Scans.Scan;
 
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Class which scans the file for characteristics of a CMS-2Y program and tracks the data it collects.
@@ -16,7 +16,7 @@ public class FileScanner {
     private File file;
     private Report scan;
 
-    private HashMap<String, Integer> data;
+    private ArrayList<String> data;
  
     /**
      * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
@@ -28,24 +28,41 @@ public class FileScanner {
         this.stmtReader = new StatementReader(file);
         this.file = file;
         this.scan = scan;
-        this.data = new HashMap<>();
+        this.data = new ArrayList<String>();
     }
 
     /**
-     * @return HashMap<String, Integer> A HashMap of the data gained in the scan, <String, Integer> being the
-     * <Type of data, the number of times that type was found in the file>
+     * @return ArrayList<String> An ArrayList of the data gained in the scan
      */
-    public HashMap<String, Integer> run() {
+    public ArrayList<String> run() {
+        // Runs all of the scans on all of the statements in the file
+        ArrayList<Scan> scans = scan.getScans();
         for(Statement stmt : stmtReader.getStatements()){
-            commentScanner.scan(stmt);
-            dirCommentScanner.scan(stmt);
+           for(Scan s : scans) {
+               s.scan(stmt);
+           }
         }
 
-        data.put("Lines", stmtReader.numLines());
+        // Add the file name and type to the data
+        String fileNameWithOutExt = file.getName().replaceFirst("[.][^.]+$", ""); // remove the first dot followed by any characters
+        data.add(fileNameWithOutExt);
+        data.add("SYST");
+
+        // Add the output of all of the scans into the ArrayList
+        for(Scan s : scans) {
+            ArrayList<Entry> temp = s.getData();
+            for(Entry e : temp) {
+                data.add(String.valueOf(e.getValue()));
+            }
+        }
+
+        // Add the total number of lines to the specified location in the ArrayList (easier to do it this way than to have a seperate scan)
+        data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+
+        return data;
+
+
         //The lines below are temporary. This function should be changed to return a Report (I think), not a HashMap
-        data.put("Comment Statements", commentScanner.getData().get(0).getValue());
-        data.put("Comment Lines", commentScanner.getData().get(1).getValue());
-        data.put("Direct Comment Statements", dirCommentScanner.getData().get(0).getValue());
       
         /*
         * Old code below, used for reference until everything is properly converted into scanners
@@ -164,7 +181,5 @@ public class FileScanner {
         data.put("Direct Code Other", numDirOther);
       */
 
-        // Returns HashMap data
-        return data;
     }
 }

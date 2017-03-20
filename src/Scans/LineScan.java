@@ -30,8 +30,7 @@ public abstract class LineScan extends Scan {
     }
 
     public ArrayList<Entry> getData() {
-        ArrayList<Entry> result = new ArrayList<Entry>();
-        result.add(new Entry(KEYWORD + " Statements", count));
+        ArrayList<Entry> result = super.getData();
         result.add(new Entry(KEYWORD + " Lines", lineCount));
         return result;
     }

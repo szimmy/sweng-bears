@@ -1,6 +1,8 @@
 package Scans;
 
 import CMS2Statements.Statement;
+import Reports.Entry;
+import java.util.ArrayList;
 
 public class CommentScanner extends LineScan {
     public CommentScanner(){

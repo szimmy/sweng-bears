@@ -334,6 +334,6 @@ public class ReportTest {
 
         data.add(delimtstmts);
 
-        Report.sourceAnalysis.reportGeneration(Report.sourceAnalysis.getHeader(), data);
+        Report.reportGeneration(Report.sourceAnalysis.getHeader(), data);
     }
 }

@@ -41,7 +41,13 @@ public abstract class Scan {
      * This method collects all of the data from the Scan into an ArrayList.
      * @return The data from the Scan.
      */
-    public abstract ArrayList<Entry> getData();
+    public ArrayList<Entry> getData() {
+        ArrayList<Entry> data = new ArrayList<Entry>();
+
+        data.add(new Entry(KEYWORD + " Stmts", count));
+
+        return data;
+    }
 
 
     //If it is possible that the first token isn't followed by a space, needs to be changed.

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import Report.Column;
+import Reports.Report;
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
  *
@@ -8,6 +10,8 @@ import java.util.ArrayList;
  */
 
 public class Controller {
+
+    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
     private final static JFileChooser chooser = new JFileChooser();
 
@@ -19,18 +23,19 @@ public class Controller {
      * Choose the files and run the scan on them.
      */
     private static void chooseFiles(String [] args) {
-        ArrayList scans=new ArrayList();
+        ArrayList<ArrayList<String>> scans = new ArrayList<>();
         // Uses method getFiles(); to create an array files of type File
         File files[] = getFiles(args);
-        // Adds a HashMap of the scanned data on each File in files to an ArrayList scans by performing
+        // Adds an ArrayList of the scanned data on each File in files to an ArrayList scans by performing
         // FileScanner.run()
         for(int i=0;i<files.length;i++) {
             if(validExtension(getExtension(files[i]))) {
-                scans.add(new FileScanner(files[i], null).run());
+                scans.add(new FileScanner(files[i], Report.sourceAnalysis).run()); // run source analysis as default for now
             }
         }
+
         //Prints the information scanned to the terminal from ArrayList scans
-        System.out.println(scans.toString());
+        Report.reportGeneration(Report.sourceAnalysis.getHeader(), fillColumns(scans));
 
         //An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
@@ -43,7 +48,32 @@ public class Controller {
             }
         }
 
-        System.out.println("Invalid Files: " + invalidFiles.toString());
+        if(invalidFiles.size() != 0) {
+            System.out.println("Invalid Files: " + invalidFiles.toString());
+        }
+    }
+
+    /**
+     * Fill the Columns of the generated report with the output data
+     * @param data The data to fill the report
+     * @return The filled columns
+     */
+    private static ArrayList<Column> fillColumns(ArrayList<ArrayList<String>> data) {
+        ArrayList<Column> result = Report.sourceAnalysis.generateReportColumns();
+
+        Column tempColumn;
+        ArrayList<String> tempArrayList;
+
+        // Add the data from data to the columns
+        for(int i = 0; i < result.size(); i++) { // for every column
+            tempColumn = result.get(i);
+            for(int j = 0; j < data.size(); j++) { // for every row, all rows are the same fixed size by definition
+                tempArrayList = data.get(j);
+                tempColumn.addData(tempArrayList.get(i)); // add the corresponding element to the column from that row
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -89,7 +119,7 @@ public class Controller {
         }
         File[] files = new File[args.length];
         for (int i = 0; i < args.length; i++) {
-            files[i] = new File(args[i]);
+            files[i] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
         }
         return files;
     }
