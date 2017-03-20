@@ -50,7 +50,7 @@ public class SourceAnalysis extends Report {
         scans.add(new HighLevelOtherScanner());
         scans.add(new DirectExecScanner());
         scans.add(new DirectDataScanner());
-        scans.add(new CommentScanner());
+        scans.add(new DirCommentScanner());
         scans.add(new TotalExecScanner());
         scans.add(new TotalCSWTCScanner());
         scans.add(new TotalMXLVScanner());
