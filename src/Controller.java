@@ -13,10 +13,9 @@ public class Controller {
 
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
-    private final static JFileChooser chooser = new JFileChooser();
-
     public static void main(String args[]) {
         chooseFiles(args);
+        System.exit(0);
     }
 
     /**
