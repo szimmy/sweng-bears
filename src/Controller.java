@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
+import Report.Column;
+import Reports.Report;
+import Reports.SourceAnalysis;
+
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
  *
@@ -9,39 +13,71 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    private final static JFileChooser chooser = new JFileChooser();
+    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
     public static void main(String args[]) {
-        chooseFiles();
+        long startTime = System.nanoTime();
+        chooseFiles(args);
+        long endTime = System.nanoTime();
+        long output = endTime - startTime;
+        System.out.println("Elapsed time in milliseconds: " + output / 1000000);
+        System.exit(0);
     }
 
     /**
      * Choose the files and run the scan on them.
      */
-    private static void chooseFiles() {
-        ArrayList scans=new ArrayList();
-        // Uses method getFiles(); to create an array files of type File
-        File files[] = getFiles();
-        // Adds a HashMap of the scanned data on each File in files to an ArrayList scans by performing
-        // FileScanner.run()
-        for(int i=0;i<files.length;i++) {
-            scans.add(new FileScanner(files[i], null).run());
-        }
-        //Prints the information scanned to the terminal from ArrayList scans
-        System.out.println(scans.toString());
+    private static void chooseFiles(String [] args) {
+        ArrayList<ArrayList<String>> scans = new ArrayList<>();
 
-        //An ArrayList of type String to keep track of invalid Files that were selected to scan
+        File files[] = getFiles(args);
+
+        for(int i=0;i<files.length;i++) {
+            if(validExtension(getExtension(files[i]))) {
+                scans.add(new FileScanner(files[i], new SourceAnalysis()).run()); // run source analysis as default for now
+            }
+        }
+
+        // Prints the report
+        Report.reportGeneration(Report.sourceAnalysis.getHeader(), fillColumns(scans));
+
+        // An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
 
-        
+
         for(File f: files) {
             if(!validExtension(getExtension(f))) {
                 invalidFiles.add(f.getName());
                 System.out.println("Invalid Extension: " + getExtension(f));
             }
         }
-        
-        System.out.println("Invalid Files: " + invalidFiles.toString());
+
+        if(invalidFiles.size() != 0) {
+            System.out.println("Invalid Files: " + invalidFiles.toString());
+        }
+    }
+
+    /**
+     * Fill the Columns of the generated report with the output data
+     * @param data The data to fill the report
+     * @return The filled columns
+     */
+    private static ArrayList<Column> fillColumns(ArrayList<ArrayList<String>> data) {
+        ArrayList<Column> result = Report.sourceAnalysis.generateReportColumns();
+
+        Column tempColumn;
+        ArrayList<String> tempArrayList;
+
+        // Add the data from data to the columns
+        for(int i = 0; i < result.size(); i++) { // for every column
+            tempColumn = result.get(i);
+            for(int j = 0; j < data.size(); j++) { // for every row, all rows are the same fixed size by definition
+                tempArrayList = data.get(j);
+                tempColumn.addData(tempArrayList.get(i)); // add the corresponding element to the column from that row
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -73,15 +109,22 @@ public class Controller {
     }
 
     /**
-     * @author Jeffrey Lehman
+     * @author Jeffrey Lehman (updated by Alexander Mendelsohn)
      * @Date 02 Feb 2017
      * @return  files; an array of type File which the user has chosen using jfilechooser
      */
-    private static File[] getFiles(){
-        JFileChooser chooser = new JFileChooser();
-        chooser.setMultiSelectionEnabled(true);
-        chooser.showOpenDialog(new JFrame());
-        File[] files = chooser.getSelectedFiles();
+    private static File[] getFiles(String [] args){
+        if (args.length == 0) {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showOpenDialog(new JFrame());
+            File[] files = chooser.getSelectedFiles();
+            return files;
+        }
+        File[] files = new File[args.length];
+        for (int i = 0; i < args.length; i++) {
+            files[i] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
+        }
         return files;
     }
 }

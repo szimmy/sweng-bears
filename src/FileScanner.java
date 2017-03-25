@@ -1,41 +1,81 @@
-import java.io.BufferedReader;
+import CMS2Statements.StatementReader;
+import CMS2Statements.Statement;
+import Reports.Entry;
+import Reports.Report;
+import Scans.Scan;
+
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Class which scans the file for characteristics of a CMS-2Y program and tracks the data it collects.
  */
 public class FileScanner {
 
+    private StatementReader stmtReader;
     private File file;
-    private ReportContent scan;
-    private HashMap<String, Integer> data;
+    private Report scan;
 
+    private ArrayList<String> data;
+ 
     /**
-     * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type ReportContent
+     * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
      * which is used to store the data. Creates a new HashMap which save the data scanned.
      * @param file
      * @param scan
      */
-    public FileScanner(File file, ReportContent scan) {
+    public FileScanner(File file, Report scan) {
+        this.stmtReader = new StatementReader(file);
         this.file = file;
         this.scan = scan;
-        this.data = new HashMap<>();
+        this.data = new ArrayList<String>();
     }
 
     /**
-     * Performs a scan on the File file,
-     *
-     * @return HashMap<String, Integer> A HashMap of the data gained in the scan, <String, Integer> being the
-     * <Type of data, the number of times that type was found in the file>
+     * @return ArrayList<String> An ArrayList of the data gained in the scan
      */
-    public HashMap<String, Integer> run() {
+    public ArrayList<String> run() {
+        // Runs all of the scans on all of the statements in the file
+        ArrayList<Scan> scans = scan.getScans();
+        for(Statement stmt : stmtReader.getStatements()){
+           for(Scan s : scans) {
+               s.scan(stmt);
+           }
+        }
+
+        // Add the file name and type to the data
+        String fileNameWithOutExt = file.getName().replaceFirst("[.][^.]+$", ""); // remove the first dot followed by any characters
+        data.add(fileNameWithOutExt);
+        data.add("SYST");
+
+        // Add the output of all of the scans into the ArrayList
+        for(Scan s : scans) {
+            ArrayList<Entry> temp = s.getData();
+            for(Entry e : temp) {
+                data.add(String.valueOf(e.getValue()));
+            }
+        }
+
+        // Add the total number of lines to the specified location in the ArrayList (easier to do it this way than to have a seperate scan)
+        data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+
+        return data;
+
+
+        //The lines below are temporary. This function should be changed to return a Report (I think), not a HashMap
+      
+        /*
+        * Old code below, used for reference until everything is properly converted into scanners
+        */
+        /*
         // Data, Integers to keep track of how many times each data type occurs in the File file
         int numLines = 0;
         int numCommentStmts = 0;
         int numCommentLines = 0;
+        int numDataStmts = 0;
+        int numDataLines = 0;
+        int numGotoStmts = 0;
+        int numGotoLines = 0;
         int numDirCommentsStmts = 0;
         // This will need to be split into two in a later sprint.
         int numDirOther = 0;
@@ -45,10 +85,9 @@ public class FileScanner {
         // Boolean to keep track if the scan is currently in a Direct cms2 code block
         boolean inDirectBlock = false;
 
-        /**
-         * Uses BufferedReader and FileReader on File file to begin the scan.
-         * Strings line and statement are used to track and evaluate the current line and/or block of cms2 code.
-         */
+        
+         // Uses BufferedReader and FileReader on File file to begin the scan.
+         // Strings line and statement are used to track and evaluate the current line and/or block of cms2 code.
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             String statement = "";
@@ -79,6 +118,20 @@ public class FileScanner {
                         if (getFirstToken(statement).equals("COMMENT")) {
                             numCommentStmts++;
                             numCommentLines += (numLines - stmtBeginningLine) + 1;
+                        } else if (getFirstToken(statement).equals("VRBL")
+                                || getFirstToken(statement).equals("TABLE")
+                                || getFirstToken(statement).equals("END-TABLE")
+                                || getFirstToken(statement).equals("FIELD")
+                                || getFirstToken(statement).equals("ITEM-AREA")
+                                || getFirstToken(statement).equals("TYPE")
+                                || getFirstToken(statement).equals("END-TYPE")
+                                || getFirstToken(statement).equals("SUB-TABLE")
+                                || getFirstToken(statement).equals("SUBTABLE")) {
+                            numDataStmts++;
+                            numDataLines += (numLines - stmtBeginningLine) + 1;
+                        } else if (getFirstToken(statement).equals("GOTO")) {
+                            numGotoStmts++;
+                            numGotoLines += (numLines - stmtBeginningLine) + 1;
                         } else if (getFirstToken(statement).equals("DIRECT") ||
                                 getFirstToken(statement).equals("DIRECT$")) { //I don't know if this would be legal
                             numCMSOtherStmts++; //Test this line and the next
@@ -118,40 +171,15 @@ public class FileScanner {
         data.put("Lines", numLines);
         data.put("Comment Statements", numCommentStmts);
         data.put("Comment Lines", numCommentLines);
+        data.put("Data Statements", numDataStmts);
+        data.put("Data Lines", numDataLines);
+        data.put("Goto Statements", numGotoStmts);
+        data.put("Goto Lines", numGotoLines);
         data.put("CMS-2Y Other Statements", numCMSOtherStmts);
         data.put("CMS-2Y Other Lines", numCMSOtherLines);
         data.put("Direct Code Comments", numDirCommentsStmts);
         data.put("Direct Code Other", numDirOther);
+      */
 
-        // Returns HashMap data
-        return data;
-    }
-
-    /**
-     * Returns the given string with everything after the first instance of the delimiter removed.
-     */
-    private String trimDelim(String line, char delimiter){ //Change the name of this, but not to trim
-        int delimiterIndex = line.indexOf(delimiter);
-        if(delimiterIndex == -1) {
-            return line;
-        }
-        return line.substring(0, delimiterIndex + 1);
-    }
-    //If it is possible that the first token isn't followed by a space, needs to be changed.
-    private String getFirstToken(String statement){
-        return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
-    }
-
-    /**
-     * Returns the original string with tabs turned into spaces
-     */
-    private String transformTabs(String string){
-        String[] segments = string.split("\t");
-        String result = "";
-        for(String seg : segments){
-            result = result.concat(seg + "    ");
-        }
-        result = result.substring(0, result.length() - 4);
-        return result;
     }
 }
