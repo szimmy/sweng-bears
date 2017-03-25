@@ -15,6 +15,8 @@ public class Controller {
 
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
+    private static Report report = Report.sourceAnalysis;
+
     public static void main(String args[]) {
         long startTime = System.nanoTime();
         chooseFiles(args);
@@ -28,18 +30,16 @@ public class Controller {
      * Choose the files and run the scan on them.
      */
     private static void chooseFiles(String [] args) {
-        ArrayList<ArrayList<String>> scans = new ArrayList<>();
+        ArrayList<Column> columns = report.generateReportColumns();
 
         File files[] = getFiles(args);
 
-        for(int i=0;i<files.length;i++) {
-            if(validExtension(getExtension(files[i]))) {
-                scans.add(new FileScanner(files[i], new SourceAnalysis()).run()); // run source analysis as default for now
-            }
+        for(int i = 0; i < files.length; i++) {
+            columns = fillColumn(columns, new FileScanner(files[i], new SourceAnalysis()).run());
         }
 
         // Prints the report
-        Report.reportGeneration(Report.sourceAnalysis.getHeader(), fillColumns(scans));
+        Report.reportGeneration(report.getHeader(), columns);
 
         // An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
@@ -58,26 +58,17 @@ public class Controller {
     }
 
     /**
-     * Fill the Columns of the generated report with the output data
-     * @param data The data to fill the report
+     * Fills the columns with a single row of data (whatever was originally there + data)
+     * @param columns Columns to fill
+     * @param data Data to fill it with
      * @return The filled columns
      */
-    private static ArrayList<Column> fillColumns(ArrayList<ArrayList<String>> data) {
-        ArrayList<Column> result = Report.sourceAnalysis.generateReportColumns();
-
-        Column tempColumn;
-        ArrayList<String> tempArrayList;
-
-        // Add the data from data to the columns
-        for(int i = 0; i < result.size(); i++) { // for every column
-            tempColumn = result.get(i);
-            for(int j = 0; j < data.size(); j++) { // for every row, all rows are the same fixed size by definition
-                tempArrayList = data.get(j);
-                tempColumn.addData(tempArrayList.get(i)); // add the corresponding element to the column from that row
-            }
+    private static ArrayList<Column> fillColumn(ArrayList<Column> columns, ArrayList<String> data) {
+        for(int i = 0; i < columns.size(); i++) {
+            columns.get(i).addData(data.get(i));
         }
 
-        return result;
+        return columns;
     }
 
     /**
