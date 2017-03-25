@@ -2,17 +2,14 @@ package Reports;
 
 import Report.Column;
 import Scans.Scan;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * A Report consistents of a collection of Scans that the user wants to run on the given input file.
- * All subclasses of report will be stored as static variables in Report.java.
  * To create a new report, make a subclass of whatever title, and in the default constructor
  * instantiate scans with whatever scan objects desired.
  * Then fill in the functionality for generateReport().
  *
- * Basic report template is included in *TO BE DETERMINED*.
  *
  * @author Sean Zimmerman
  */

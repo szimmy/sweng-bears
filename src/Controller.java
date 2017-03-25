@@ -29,20 +29,19 @@ public class Controller {
      */
     private static void chooseFiles(String [] args) {
         ArrayList<ArrayList<String>> scans = new ArrayList<>();
-        // Uses method getFiles(); to create an array files of type File
+
         File files[] = getFiles(args);
-        // Adds an ArrayList of the scanned data on each File in files to an ArrayList scans by performing
-        // FileScanner.run()
+
         for(int i=0;i<files.length;i++) {
             if(validExtension(getExtension(files[i]))) {
                 scans.add(new FileScanner(files[i], new SourceAnalysis()).run()); // run source analysis as default for now
             }
         }
 
-        //Prints the information scanned to the terminal from ArrayList scans
+        // Prints the report
         Report.reportGeneration(Report.sourceAnalysis.getHeader(), fillColumns(scans));
 
-        //An ArrayList of type String to keep track of invalid Files that were selected to scan
+        // An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
 
 
