@@ -24,7 +24,7 @@ public class HighLevelExecScanner extends LineScan {
             else if(getFirstToken(statement.getText()).equals("END-SYS-PROC")) {
                 inExecBlock = false;
             }
-            else if(!getFirstToken(statement.getText()).equals("COMMENT")){ //Notice that SYS-PROC is not
+            else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")){ //Notice that SYS-PROC is not
                 count += 1;                                                 //counted as a exec statement.
                 tallyLines(statement);
             }
