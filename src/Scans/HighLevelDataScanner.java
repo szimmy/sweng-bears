@@ -2,7 +2,6 @@ package Scans;
 
 import CMS2Statements.Statement;
 import Reports.Entry;
-
 import java.util.ArrayList;
 
 public class HighLevelDataScanner extends Scan {
@@ -14,15 +13,20 @@ public class HighLevelDataScanner extends Scan {
         count = 0;
     }
 
-    public void scan(Statement statement) {
-        // TODO
+    //DID NOT INCLUDE TABLE, DATA, SUB-TABLE AND END-TABLE; UNSURE IF INCLUDED UNDER DATA STMTS
+    public void scan(Statement statement){
+        String s=getFirstToken(statement.getText());
+        if(!statement.isDirectCode()){
+            if(s.equals("VRBL") || s.equals("FIELD")) {
+                count++;
+            }
+        }
     }
 
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = super.getData();
-
         data.add(new Entry(KEYWORD + " Lines", lineCount));
-
         return data;
     }
 }
+
