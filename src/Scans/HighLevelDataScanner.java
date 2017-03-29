@@ -13,7 +13,9 @@ public class HighLevelDataScanner extends Scan {
         count = 0;
     }
 
-    //DID NOT INCLUDE TABLE, DATA, SUB-TABLE AND END-TABLE; UNSURE IF INCLUDED UNDER DATA STMTS
+    // DID NOT INCLUDE
+    // TABLE, END-TABLE, ITEM-AREA, TYPE, END-TYPE, DATA, SUB-TABLE, SUBTABLE
+    // UNSURE IF INCLUDED UNDER DATA STMTS
     public void scan(Statement statement){
         String s=getFirstToken(statement.getText());
         if(!statement.isDirectCode()){
@@ -30,3 +32,12 @@ public class HighLevelDataScanner extends Scan {
     }
 }
 
+(getFirstToken(statement.getText()).equals("VRBL")
+        || getFirstToken(statement.getText()).equals("TABLE")
+        || getFirstToken(statement.getText()).equals("END-TABLE")
+        || getFirstToken(statement.getText()).equals("FIELD")
+        || getFirstToken(statement.getText()).equals("ITEM-AREA")
+        || getFirstToken(statement.getText()).equals("TYPE")
+        || getFirstToken(statement.getText()).equals("END-TYPE")
+        || getFirstToken(statement.getText()).equals("SUB-TABLE")
+        || getFirstToken(statement.getText()).equals("SUBTABLE")))
