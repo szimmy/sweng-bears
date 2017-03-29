@@ -31,13 +31,3 @@ public class HighLevelDataScanner extends Scan {
         return data;
     }
 }
-
-(getFirstToken(statement.getText()).equals("VRBL")
-        || getFirstToken(statement.getText()).equals("TABLE")
-        || getFirstToken(statement.getText()).equals("END-TABLE")
-        || getFirstToken(statement.getText()).equals("FIELD")
-        || getFirstToken(statement.getText()).equals("ITEM-AREA")
-        || getFirstToken(statement.getText()).equals("TYPE")
-        || getFirstToken(statement.getText()).equals("END-TYPE")
-        || getFirstToken(statement.getText()).equals("SUB-TABLE")
-        || getFirstToken(statement.getText()).equals("SUBTABLE")))
