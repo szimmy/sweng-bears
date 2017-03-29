@@ -4,7 +4,9 @@ import CMS2Statements.Statement;
 
 public class TotalDelimtStmtsScanner extends Scan {
 
-    // Array containing all Delimiters in the CMS2 language
+    // Array containing all Delimiter Statements keywords in the CMS2 language
+    // The end of the Delimiter Statements keywords are commented out, assuming the do not need to be counted.
+    // If they do, uncomment them back in.
     String[] delimiters = new String[]{
             "SYSTEM",// "END-SYSTEM",
             "SYS-DD",// "END-SYS-DD",
@@ -24,9 +26,10 @@ public class TotalDelimtStmtsScanner extends Scan {
     }
 
     /**
-     * Delimiters are used to start and end parts of a CMS2 code, therefore it will only be written in the start or
-     * end of a statement; meaning there will only be one per line.
-     * Uses .contains() for this reason
+     * Scans for specific keywords which start a delimited statement
+     * Uses getFirstToken(statement.getText()); to ensure that it does not count the
+     * keywords in COMMENTs.
+     *
      *
      * @param statement The statement to be scanned
      */
