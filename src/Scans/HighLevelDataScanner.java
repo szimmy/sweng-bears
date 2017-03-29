@@ -4,13 +4,13 @@ import CMS2Statements.Statement;
 import Reports.Entry;
 import java.util.ArrayList;
 
-public class HighLevelDataScanner extends Scan {
+public class HighLevelDataScanner extends LineScan {
 
-    private int lineCount = 0;
 
     public HighLevelDataScanner() {
         KEYWORD = "Data";
         count = 0;
+        lineCount=0;
     }
 
     // DID NOT INCLUDE
@@ -21,8 +21,10 @@ public class HighLevelDataScanner extends Scan {
         if(!statement.isDirectCode()){
             if(s.equals("VRBL") || s.equals("FIELD")) {
                 count++;
+                tallyLines(statement);
             }
         }
+
     }
 
     public ArrayList<Entry> getData() {
