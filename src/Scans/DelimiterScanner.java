@@ -12,17 +12,18 @@ import CMS2Statements.Statement;
 
 public class DelimiterScanner extends LineScan {
     // Array containing all Delimiters in the CMS2 language
+    // The ending delimiters are not included
     String[] delimiters = new String[] {
-            "SYSTEM", "END-SYSTEM",
-            "SYS-DD", "END-SYS-DD",
-            "SYS-PROC", "END-SYS-PROC",
-            "LOC-DD",	"END-LOC-DD",
-            "PROCEDURE",	"END-PROC",
-            "EXEC-PROC",	"END-PROC",
-            "FUNCTION", 	"END-FUNCTION",
-            "SYS-PROC-REN",	"END-SYS-PROC",
-            "AUTO-DD",  	"END-AUTO-DD",
-            "HEAD",	"END-HEAD"
+            "SYSTEM", //"END-SYSTEM",
+            "SYS-DD", //"END-SYS-DD",
+            "SYS-PROC", //"END-SYS-PROC",
+            "LOC-DD",	//"END-LOC-DD",
+            "PROCEDURE",//	"END-PROC",
+            "EXEC-PROC",//	"END-PROC",
+            "FUNCTION", //	"END-FUNCTION",
+            "SYS-PROC-REN",	//"END-SYS-PROC",
+            "AUTO-DD",  	//"END-AUTO-DD",
+            "HEAD"//,	"END-HEAD"
     };
 
     public DelimiterScanner(){
