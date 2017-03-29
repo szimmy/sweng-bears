@@ -28,7 +28,7 @@ public class MisplacedEndSysScanner extends Scan {
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = new ArrayList<Entry>();
 
-        if (!correctENDSYS) { // if the final statement read wasn't END-SYSTEM, something's wrong
+        if (count == 0 && !correctENDSYS) { // if the final statement read wasn't END-SYSTEM, something's wrong
             count++;
         }
         data.add(new Entry(KEYWORD + " Stmts", count));
