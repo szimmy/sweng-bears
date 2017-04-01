@@ -31,6 +31,9 @@ public class SourceAnalysis extends Report {
     // Title of the report to be used in the report.
     private final String TITLE = "Source Analysis Summary";
 
+    /**
+     * The constructor for the SourceAnalysis
+     */
     public SourceAnalysis() {
         this.totalLinesArrayPos = 14;
 

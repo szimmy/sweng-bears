@@ -5,14 +5,24 @@ import Reports.Entry;
 
 import java.util.ArrayList;
 
+/**
+ * This class scans code for High Level Data Statements
+ */
 public class HighLevelDataScanner extends LineScan {
 
+    /**
+     * The constructor for HighLevelDataScanner
+     */
     public HighLevelDataScanner() {
         KEYWORD = "Data";
         count = 0;
         lineCount = 0;
     }
 
+    /**
+     * Scans a statement and counts it and its lines if the statement is a High Level Data Statement
+     * @param statement The statement to be scanned
+     */
     public void scan(Statement statement) {
         if(!statement.isDirectCode()
                 && (getFirstToken(statement.getText()).equals("VRBL")

@@ -5,15 +5,25 @@ import Reports.Entry;
 
 import java.util.ArrayList;
 
+/**
+ * This class scans code for Misplaced END-SYSTEM Statements
+ */
 public class MisplacedEndSysScanner extends Scan {
 
     private boolean correctENDSYS = false; // assume false for now
 
+    /**
+     * The constructor for MisplacedEndScanner.
+     */
     public MisplacedEndSysScanner() {
         KEYWORD = "MisplacedEndSys";
         count = 0; // the number of misplaced END-SYSTEM statements
     }
 
+    /**
+     * Scans a statement and counts it if it is a Misplaced End-SYSTEM Statement
+     * @param statement The statement to be scanned
+     */
     public void scan(Statement statement) {
         if (correctENDSYS) { // if this scanner is run even though an END-SYSTEM statement was already found
             correctENDSYS = false; // the END-SYSTEM statement must be in the wrong spot
@@ -24,6 +34,10 @@ public class MisplacedEndSysScanner extends Scan {
         }
     }
 
+
+    /**
+     * Overrides getData() in the Scan class to increment count if NO END-SYSTEM statement was found at all.
+     */
     @Override
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = new ArrayList<Entry>();

@@ -27,6 +27,10 @@ public abstract class Report {
     // Any generated reports will be added below.
     public static Report sourceAnalysis = new SourceAnalysis();
 
+    /**
+     * Accessor for totalLinesArrayPos
+     * @return an array position later used by FileScanner
+     */
     public int getTotalLinesArrayPos() {
         return totalLinesArrayPos;
     }
@@ -37,10 +41,18 @@ public abstract class Report {
      */
     public abstract ArrayList<Column> generateReportColumns();
 
+    /**
+     * Accessor for scans
+     * @return the scans in this Report
+     */
     public ArrayList<Scan> getScans() {
         return this.scans;
     }
 
+    /**
+     * Accessor for TITLE
+     * @return the title of this Report
+     */
     public String getTITLE() {
         return this.TITLE;
     }
@@ -92,6 +104,10 @@ public abstract class Report {
         return result;
     }
 
+    /**
+     * Accessor for header
+     * @return the header for this Report
+     */
     public String getHeader() {
         return this.header;
     }
