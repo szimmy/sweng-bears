@@ -24,19 +24,11 @@ public class HighLevelExecScanner extends LineScan {
             else if(getFirstToken(statement.getText()).equals("END-SYS-PROC")) {
                 inExecBlock = false;
             }
-            else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")){ //Notice that SYS-PROC is not
-                count += 1;                                                 //counted as a exec statement.
+            else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")){//Notice that SYS-PROC is not
+                count++;                                                                  //counted as a exec statement.
                 tallyLines(statement);
             }
         }
 
-    }
-
-    public ArrayList<Entry> getData() {
-        ArrayList<Entry> data = super.getData();
-
-        data.add(new Entry(KEYWORD + " Lines", lineCount));
-
-        return data;
     }
 }

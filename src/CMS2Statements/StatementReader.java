@@ -60,8 +60,16 @@ public class StatementReader {
                     statementText += part;
                     if (!inDirectBlock) {
                         if (statementText.contains("$")) {
+                            //New code, test
+                            int dotIndex = statementText.charAt('.');
+                            String label = "";
+                            if(dotIndex <= 8 && dotIndex != -1){//I think the max length of a label is 8, including the dot. Have to check
+                                label = statementText.substring(0, dotIndex + 1);
+                                statementText = statementText.substring(dotIndex + 1);
+                            }
+                            //End new code
                             statements.add(new Statement(statementText,
-                                    stmtStartLine, lineNum, false));
+                                    stmtStartLine, lineNum, false, label));
                             if (getFirstToken(statementText).equals("DIRECT")) {
                                 inDirectBlock = true;
                             }
@@ -73,9 +81,9 @@ public class StatementReader {
                         statementText = line;
                         if (getFirstToken(statementText).equals("CMS-2")) {
                             inDirectBlock = false;
-                            statements.add(new Statement(statementText, stmtStartLine, lineNum, false));
+                            statements.add(new Statement(statementText, stmtStartLine, lineNum, false, ""));
                         } else {
-                            statements.add(new Statement(statementText, stmtStartLine, lineNum, true));
+                            statements.add(new Statement(statementText, stmtStartLine, lineNum, true, ""));
                         }
                         statementText = "";
                         stmtStartLine = -1;
