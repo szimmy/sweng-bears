@@ -9,41 +9,26 @@ import java.util.ArrayList;
  * This class scans code for High Level Data Statements
  */
 public class HighLevelDataScanner extends LineScan {
-
-    /**
-     * The constructor for HighLevelDataScanner
-     */
     public HighLevelDataScanner() {
         KEYWORD = "Data";
         count = 0;
         lineCount = 0;
     }
 
-    /**
-     * Scans a statement and counts it and its lines if the statement is a High Level Data Statement
-     * @param statement The statement to be scanned
-     */
+    // DID INCLUDE
+    // TABLE, END-TABLE, ITEM-AREA, TYPE, END-TYPE, DATA, SUB-TABLE, SUBTABLE
+    // UNSURE IF INCLUDED UNDER DATA STMTS
     public void scan(Statement statement) {
-        if(!statement.isDirectCode()
-                && (getFirstToken(statement.getText()).equals("VRBL")
-                || getFirstToken(statement.getText()).equals("TABLE")
-                || getFirstToken(statement.getText()).equals("END-TABLE")
-                || getFirstToken(statement.getText()).equals("FIELD")
-                || getFirstToken(statement.getText()).equals("ITEM-AREA")
-                || getFirstToken(statement.getText()).equals("TYPE")
-                || getFirstToken(statement.getText()).equals("END-TYPE")
-                || getFirstToken(statement.getText()).equals("SUB-TABLE")
-                || getFirstToken(statement.getText()).equals("SUBTABLE"))) {
-            count++;
-            tallyLines(statement);
+        String s = getFirstToken(statement.getText());
+        if (!statement.isDirectCode()) {
+                if (
+                        s.equals("VRBL") || s.equals("FIELD") || s.equals("TABLE") ||
+                            s.equals("END-TABLE") || s.equals("ITEM-AREA") || s.equals("TYPE") ||
+                            s.equals("END-TYPE") || s.equals("DATA") || s.equals("SUB-TABLE") ||
+                            s.equals("SUBTABLE")) {
+                count++;
+                tallyLines(statement);
+            }
         }
     }
-
-//    public ArrayList<Entry> getData() {
-//        ArrayList<Entry> data = super.getData();
-//
-//        data.add(new Entry(KEYWORD + " Lines", lineCount));
-//
-//        return data;
-//    }
 }
