@@ -5,9 +5,10 @@ import Reports.Entry;
 
 import java.util.ArrayList;
 
+/**
+ * This class scans code for High Level Data Statements
+ */
 public class HighLevelDataScanner extends LineScan {
-
-
     public HighLevelDataScanner() {
         KEYWORD = "Data";
         count = 0;

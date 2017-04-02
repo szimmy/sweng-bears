@@ -8,14 +8,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+/**
+ * This class reads statements of from a file, records them in an ArrayList, and notes the number of lines of code
+ */
 public class StatementReader {
     private File file;
     private ArrayList<Statement> statements;
     private int lineNum;
 
     /**
-     * Separates a file into a list of statements
+     * The constructor, which also separates a file into a list of statements.
+     * @param file whose code is to be read
      */
     public StatementReader(File file) {
         this.file = file;
@@ -90,24 +93,44 @@ public class StatementReader {
         }
     }
 
+    /**
+     * Accessor for statements.size()
+     * @return the number of statements that have been read
+     */
     public int numStmts(){
         return statements.size();
     }
 
+    /**
+     * Accessor for lineNum
+     * @return the number of lines that have been read
+     */
     public int numLines(){
         return lineNum;
     }
 
+    /**
+     * Accessor for a given Statement in statements
+     * @param index the index of the Statement in statements
+     * @return the requested statement
+     */
     public Statement getStatement(int index){
         return statements.get(index);
     }
 
+    /**
+     * Accessor for statements
+     * @return an ArrayList of the statements read
+     */
     public ArrayList<Statement> getStatements(){
         return statements;
     }
 
     /**
      * Returns the given string with everything after the first instance of the delimiter removed.
+     * @param line the String to have everything after the first instance of the delimiter removed
+     * @param delimiter the given delimeter
+     * @return the given string with everything after the first instance of the delimiter removed
      */
     private String trimDelim(String line, char delimiter){
         int delimiterIndex = line.indexOf(delimiter);
@@ -116,7 +139,13 @@ public class StatementReader {
         }
         return line.substring(0, delimiterIndex + 1);
     }
-    //If it is possible that the first token isn't followed by a space, needs to be changed.
+
+    /**
+     * Takes a statement and returns its first token, which can identify the statement's type.
+     * (If it is possible that the first token isn't followed by a space, needs to be changed.)
+     * @param statement a statement of code
+     * @return the first token of the statement
+     */
     private String getFirstToken(String statement){
         if(statement.trim().indexOf(" ") != -1){
             return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
@@ -125,7 +154,9 @@ public class StatementReader {
     }
 
     /**
-     * Returns the original string with tabs turned into spaces
+     * Returns the original String with tabs turned into spaces
+     * @param string the String in question
+     * @return the original String with tabs turned into spaces
      */
     private String transformTabs(String string){
         String[] segments = string.split("\t");
@@ -141,8 +172,11 @@ public class StatementReader {
     }
 
     /**
-     *
      * Returns everything after the first instance of the delimiter, or the whole string if it
+     * does not contain the delimiter
+     * @param string the string to be trimmed
+     * @param delimiter the delimiter to return everything after
+     * @return a String containing everything after the first instance of the delimiter or the whole string if it
      * does not contain the delimiter
      */
     private String afterDelim(String string, char delimiter){
@@ -152,6 +186,12 @@ public class StatementReader {
         return string;
     }
 
+    /**
+     * Uses a delimiter to turn a String into an ArrayList of Strings
+     * @param string the String in question
+     * @param delimiter the delimiter used to divide the String
+     * @return the ArrayList of Strings that were separated by the delimiter in the original String
+     */
     private ArrayList<String> divide(String string, char delimiter){
         ArrayList<String> result = new ArrayList<String>();
         while(string.indexOf(delimiter) > -1){
