@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * An abstract class that extends scan by adding functionality useful for counting lines.
  */
 public abstract class LineScan extends Scan {
-    //The number of lines of that contain a statement or statements that has met the critia for this scan.
+    //The number of lines of that contain a statement or statements that has met the criteria for this scan.
     protected int lineCount;
 
 
@@ -18,7 +18,7 @@ public abstract class LineScan extends Scan {
 
     /**
      * Updates lineCount. Will not count two statements on the same line as two lines.
-     * @param statement
+     * @param statement the Statement whose lines are accounted for
      */
     protected void tallyLines(Statement statement){
         int result = statement.getNumLines();
@@ -29,6 +29,10 @@ public abstract class LineScan extends Scan {
         lineCount += result;
     }
 
+    /**
+     * Provides data on both the number of statements AND the number of lines
+     * @return data on both the number of statements AND the number of lines
+     */
     public ArrayList<Entry> getData() {
         ArrayList<Entry> result = super.getData();
         result.add(new Entry(KEYWORD + " Lines", lineCount));

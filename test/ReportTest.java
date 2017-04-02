@@ -7,6 +7,11 @@ import java.util.ArrayList;
  * Test for the report output in Reports.Report.
  */
 public class ReportTest {
+
+    /**
+     * The main method for ReportTest.
+     * @param args The command line input
+     */
     public static void main(String[] args) {
         ArrayList<Column> data = new ArrayList<Column>();
 

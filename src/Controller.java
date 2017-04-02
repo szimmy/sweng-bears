@@ -17,6 +17,10 @@ public class Controller {
 
     private static Report report = Report.sourceAnalysis;
 
+    /**
+     * The main method of the program. Outputs the time the program takes to run.
+     * @param args Any filenames (entered at the command line) to be scanned
+     */
     public static void main(String args[]) {
         long startTime = System.nanoTime();
         chooseFiles(args);
@@ -28,6 +32,7 @@ public class Controller {
 
     /**
      * Choose the files and run the scan on them.
+     * @param args Any filenames (entered at the command line) to be scanned
      */
     private static void chooseFiles(String [] args) {
         ArrayList<Column> columns = report.generateReportColumns();

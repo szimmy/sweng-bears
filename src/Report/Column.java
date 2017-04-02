@@ -3,7 +3,7 @@ package Report;
 import java.util.ArrayList;
 
 /**
- * Represents a column to be used in a table like format to generate a well formatted reporot.
+ * Represents a column to be used in a table like format to generate a well formatted report.
  *
  * @author Sean Zimmerman
  */
@@ -19,7 +19,12 @@ public class Column {
 
     // For printf the format is "%-xs" for left justify and "%xs" for right justify
     // x is the number of characters in the column. Spaces will be used for padding
-
+    /**
+     * Constructor for the Column
+     * @param rightJustify whether or not the column is right justified
+     * @param headerRightJustify whether or not the header is right justified
+     * @param width the width of the column
+     */
     public Column(boolean rightJustify, boolean headerRightJustify, int width) {
         data = new ArrayList<String>();
 
@@ -58,29 +63,44 @@ public class Column {
     }
 
     /**
+     * Returns a total for the entire column
      * @return The total of all the integers in the column
      */
     public int totalNum() {
         return 0; // TODO but cba since it isn't currently important
     }
 
+    /**
+     * Accessor for width
+     * @return the column's width
+     */
     public int getWidth() {
         return this.width;
     }
 
+    /**
+     * Accessor for data
+     * @return returns an ArrayList of Strings for the column's data
+     */
     public ArrayList<String> getData() {
         return this.data;
     }
 
     /**
-     * Pad with " " to the right to the given length (n), used for left justify
+     * Pads a String with " " to the right to the given length (n) (used for left justify).
+     * @param s the given String
+     * @param n the needed length
+     * @return the modified String
      */
     public static String padRight(String s, int n) {
         return String.format("%1$-" + n + "s", s);
     }
 
     /**
-     * Pad with " " to the left to the given length (n), used for right justify
+     * Pads a String with " " to the left to the given length (n) (used for right justify).
+     * @param s the given String
+     * @param n the needed length
+     * @return the modified String
      */
     public static String padLeft(String s, int n) {
         return String.format("%1$" + n + "s", s);
