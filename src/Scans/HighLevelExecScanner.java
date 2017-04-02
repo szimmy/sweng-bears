@@ -5,17 +5,31 @@ import Reports.Entry;
 
 import java.util.ArrayList;
 
-public class HighLevelExecScanner extends Scan {
+public class HighLevelExecScanner extends LineScan {
 
-    private int lineCount = 0;
+    boolean inExecBlock;
 
     public HighLevelExecScanner() {
         KEYWORD = "Exec";
         count = 0;
+        lineCount = 0;
+        inExecBlock = false;
     }
 
     public void scan(Statement statement) {
-        // TODO
+        if(!statement.isDirectCode()){
+            if(getFirstToken(statement.getText()).equals("SYS-PROC")) {
+                inExecBlock = true;
+            }
+            else if(getFirstToken(statement.getText()).equals("END-SYS-PROC")) {
+                inExecBlock = false;
+            }
+            else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")){ //Notice that SYS-PROC is not
+                count += 1;                                                 //counted as a exec statement.
+                tallyLines(statement);
+            }
+        }
+
     }
 
     public ArrayList<Entry> getData() {
