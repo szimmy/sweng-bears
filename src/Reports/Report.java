@@ -105,9 +105,19 @@ public abstract class Report {
     }
 
     /**
-     * Accessor for header
-     * @return the header for this Report
+     * Fills the columns with a single row of data (whatever was originally there + data)
+     * @param columns Columns to fill
+     * @param data Data to fill it with
+     * @return The filled columns
      */
+    public static ArrayList<Column> fillColumn(ArrayList<Column> columns, ArrayList<String> data) {
+        for(int i = 0; i < columns.size(); i++) {
+            columns.get(i).addData(data.get(i));
+        }
+
+        return columns;
+    }
+
     public String getHeader() {
         return this.header;
     }

@@ -40,7 +40,7 @@ public class Controller {
         File files[] = getFiles(args);
 
         for(int i = 0; i < files.length; i++) {
-            columns = fillColumn(columns, new FileScanner(files[i], new SourceAnalysis()).run());
+            columns = Report.fillColumn(columns, new FileScanner(files[i], new SourceAnalysis()).run());
         }
 
         // Prints the report
@@ -60,20 +60,6 @@ public class Controller {
         if(invalidFiles.size() != 0) {
             System.out.println("Invalid Files: " + invalidFiles.toString());
         }
-    }
-
-    /**
-     * Fills the columns with a single row of data (whatever was originally there + data)
-     * @param columns Columns to fill
-     * @param data Data to fill it with
-     * @return The filled columns
-     */
-    private static ArrayList<Column> fillColumn(ArrayList<Column> columns, ArrayList<String> data) {
-        for(int i = 0; i < columns.size(); i++) {
-            columns.get(i).addData(data.get(i));
-        }
-
-        return columns;
     }
 
     /**
