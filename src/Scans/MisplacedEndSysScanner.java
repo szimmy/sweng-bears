@@ -16,12 +16,12 @@ public class MisplacedEndSysScanner extends Scan {
      * The constructor for MisplacedEndScanner.
      */
     public MisplacedEndSysScanner() {
-        KEYWORD = "MisplacedEndSys";
+        KEYWORD = "MisplacedEndSystem";
         count = 0; // the number of misplaced END-SYSTEM statements
     }
 
     /**
-     * Scans a statement and counts it if it is a Misplaced End-SYSTEM Statement
+     * Scans a statement and counts it if it is a Misplaced END-SYSTEM Statement
      * @param statement The statement to be scanned
      */
     public void scan(Statement statement) {
@@ -29,7 +29,7 @@ public class MisplacedEndSysScanner extends Scan {
             correctENDSYS = false; // the END-SYSTEM statement must be in the wrong spot
             count++;
         }
-        if (!statement.isDirectCode() && getFirstToken(statement.getText()).equals("END-SYS-PROC")) {
+        if (!statement.isDirectCode() && getFirstToken(statement.getText()).equals("END-SYSTEM")) {
             correctENDSYS = true; // assume this to be true until a statement is found afterward.
         }
     }
