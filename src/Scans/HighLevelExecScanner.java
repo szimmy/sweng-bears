@@ -31,12 +31,4 @@ public class HighLevelExecScanner extends LineScan {
         }
 
     }
-
-    public ArrayList<Entry> getData() {
-        ArrayList<Entry> data = super.getData();
-
-        data.add(new Entry(KEYWORD + " Lines", lineCount));
-
-        return data;
-    }
 }

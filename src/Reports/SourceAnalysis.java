@@ -59,8 +59,6 @@ public class SourceAnalysis extends Report {
         scans.add(new TotalMXLVScanner());
         scans.add(new TotalDelimtStmtsScanner());
 
-        //scans.add(new GotoScanner());
-        //scans.add(new MisplacedEndSysScanner());
     }
 
     /**
