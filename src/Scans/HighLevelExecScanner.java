@@ -31,7 +31,7 @@ public class HighLevelExecScanner extends LineScan {
         }
 
     }
-
+/**
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = super.getData();
 
@@ -39,4 +39,5 @@ public class HighLevelExecScanner extends LineScan {
 
         return data;
     }
+ **/
 }
