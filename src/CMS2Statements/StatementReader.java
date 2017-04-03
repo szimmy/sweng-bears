@@ -61,7 +61,7 @@ public class StatementReader {
                     if (!inDirectBlock) {
                         if (statementText.contains("$")) {
                             //New code, test
-                            int dotIndex = statementText.charAt('.');
+                            int dotIndex = statementText.indexOf('.');
                             String label = "";
                             if(dotIndex <= 8 && dotIndex != -1){//I think the max length of a label is 8, including the dot. Have to check
                                 label = statementText.substring(0, dotIndex + 1);
