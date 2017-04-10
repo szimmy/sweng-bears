@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * the word is not miscounted somewhere else.
  */
 public class AbstractNotFound extends Scan {
-    boolean abstractSearch = false;
 
     private String[] keyWords = new String[]{
             "SYSTEM", "SYS-DD", "SYS-PROC", "PROCEDURE", "EXEC-PROC", "FUNCTION"
@@ -30,19 +29,19 @@ public class AbstractNotFound extends Scan {
     public void scan(Statement statement) {
         String text = statement.getText();
         if (!statement.isDirectCode()) {
-            if(abstractSearch==false) {
+            //Checks if a statement that requires an ABSTRACT has begun
+            // Increments counter by 1 if a match is found
                 for (String s : keyWords) {
                     if (getFirstToken(text).equals(s)) {
-                        abstractSearch = true;
                         count++;
                         break;
                     }
                 }
             }
-            else if (getFirstToken(text).equals("COMMENT") && text.contains("ABSTRACT") && abstractSearch == true) {
+            // Checks if a COMMENT block contains the string ABSTRACT\
+            // Decrements counter by 1 if true
+            else if (getFirstToken(text).equals("COMMENT") && text.contains("ABSTRACT")) {
                 count--;
-                abstractSearch=false;
             }
         }
     }
-}
