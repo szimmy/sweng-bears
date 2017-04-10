@@ -26,6 +26,7 @@ public abstract class Report {
 
     // Any generated reports will be added below.
     public static Report sourceAnalysis = new SourceAnalysis();
+    public static Report sourceReview = new SourceReview();
 
     /**
      * Accessor for totalLinesArrayPos

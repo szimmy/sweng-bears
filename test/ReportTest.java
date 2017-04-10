@@ -340,5 +340,15 @@ public class ReportTest {
         data.add(delimtstmts);
 
         Report.reportGeneration(Report.sourceAnalysis.getHeader(), data);
+
+        System.out.println();
+        System.out.println("End Source Analysis Test");
+        System.out.println();
+        System.out.println();
+        System.out.println("Begin Source Review Test");
+        System.out.println();
+        System.out.println();
+
+        Report.reportGeneration(Report.sourceReview.getHeader(), Report.sourceReview.generateReportColumns());
     }
 }
