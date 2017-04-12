@@ -12,7 +12,6 @@ import java.util.TreeSet;
 public class Procedure230to250Scanner extends Scan {
 
     private boolean inProcBlock;
-    public TreeSet<String> fileNames;
     public TreeSet<String> procNames;
     private String procName;
 
@@ -23,34 +22,29 @@ public class Procedure230to250Scanner extends Scan {
         KEYWORD = "230-250";
         count = 0;
         inProcBlock = false;
-        fileNames = new TreeSet<>();
         procNames = new TreeSet<>();
         procName = "";
     }
 
     /**
-     * Scans a statement and counts it and its lines if it is a procedure with 230-250 statements.
+     * Scans a statement and counts it lines if it is a procedure with 230-250 statements.
      * @param statement The statement to be scanned
      */
     public void scan(Statement statement) {
         String s = getFirstToken(statement.getText());
-        if (!statement.isDirectCode()) {
-            if (s.equals("PROCEDURE")) {
-                inProcBlock = true;
-                procName = getSecondToken(statement.getText());
-            } else if (s.equals("END-PROC")) {
-                inProcBlock = false;
-                count = 0;
-            } else if (inProcBlock) {
-                count++;
-                if (count == 230) {
-                    procNames.add(procName);
-                    // TODO: need way to add filename to fileNames
-                }
-                if (count == 251){
-                    procNames.remove(procName);
-                    // TODO: need way to add filename to fileNames
-                }
+        if (!statement.isDirectCode() && s.equals("PROCEDURE")) {
+            inProcBlock = true;
+            procName = getSecondToken(statement.getText());
+        } else if (!statement.isDirectCode() && s.equals("END-PROC")) {
+            inProcBlock = false;
+            count = 0;
+        } else if (inProcBlock) {
+            count++;
+            if (count == 230) {
+                procNames.add(procName);
+            }
+            if (count == 251) {
+                procNames.remove(procName);
             }
         }
     }
@@ -63,7 +57,7 @@ public class Procedure230to250Scanner extends Scan {
         ArrayList<Entry> data = new ArrayList<Entry>();
 
         data.add(new Entry(KEYWORD + " Procs", procNames.size()));
-        // TODO: need way to return number of fileNames and actual names of procedures and files
+        // the actual names of these procedures can be accessed via procNames, which is public
 
         return data;
     }
