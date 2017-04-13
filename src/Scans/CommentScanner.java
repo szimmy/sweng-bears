@@ -26,6 +26,7 @@ public class CommentScanner extends LineScan {
         if(!statement.isDirectCode() && getFirstToken(statement.getText()).equals("COMMENT")){
             count++;
             tallyLines(statement);
+            statement.setClassified(true);
         }
     }
 }

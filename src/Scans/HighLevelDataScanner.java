@@ -28,6 +28,7 @@ public class HighLevelDataScanner extends LineScan {
                             s.equals("SUBTABLE")) {
                 count++;
                 tallyLines(statement);
+                statement.setClassified(true);
             }
         }
     }
