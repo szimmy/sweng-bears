@@ -7,26 +7,29 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 /**
- * This class scans code for procedures with 230-250 statements.
+ * This class scans code for procedures with over 250 lines.
  */
-public class Procedure230to250Scanner extends Scan {
+public class ProcedureOver250Scanner extends Scan {
 
     private boolean inProcBlock;
     public static TreeSet<String> procNames = new TreeSet<>();
+    public static TreeSet<String> fileNames = new TreeSet<>();
     private String procName;
+    private String fileName;
 
     /**
-     * Constructor for Procedure230to250Scanner.
+     * Constructor for ProcedureOver250Scanner.
      */
-    public Procedure230to250Scanner() {
-        KEYWORD = "230-250";
-        count = 0;
+    public ProcedureOver250Scanner(String fileName) {
+        KEYWORD = "Over250";
+        count = 0; // in this case, count refers to the number of lines in a procedure
         inProcBlock = false;
         procName = "";
+        this.fileName = fileName;
     }
 
     /**
-     * Scans a procedure's statement and counts the procedure if it has 230-250 statements.
+     * Scans a procedure's statement and counts the procedure if it has over 250 lines.
      * @param statement The statement to be scanned
      */
     public void scan(Statement statement) {
@@ -38,12 +41,11 @@ public class Procedure230to250Scanner extends Scan {
             inProcBlock = false;
             count = 0;
         } else if (inProcBlock) {
-            count++;
-            if (count == 230) {
+            count += statement.getNumLines();
+            if (count > 250) {
                 procNames.add(procName);
-            }
-            if (count == 251) {
-                procNames.remove(procName);
+                fileNames.add(fileName);
+                inProcBlock = false; // no need to check for more lines
             }
         }
     }

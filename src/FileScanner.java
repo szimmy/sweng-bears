@@ -2,7 +2,7 @@ import CMS2Statements.StatementReader;
 import CMS2Statements.Statement;
 import Reports.Entry;
 import Reports.Report;
-import Scans.Scan;
+import Scans.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,6 +59,10 @@ public class FileScanner {
 
         // Add the total number of lines to the specified location in the ArrayList (easier to do it this way than to have a seperate scan)
         data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+
+//        System.out.println(Procedure230to250Scanner.procNames);
+//        System.out.println(ProcedureOver250Scanner.procNames);
+//        System.out.println(ProcedureOver250Scanner.fileNames);
 
         return data;
 

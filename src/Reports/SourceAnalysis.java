@@ -62,6 +62,7 @@ public class SourceAnalysis extends Report {
 //        scans.add(new GotoScanner());
 //        scans.add(new MisplacedEndSysScanner());
 //        scans.add(new Procedure230to250Scanner());
+//        scans.add(new ProcedureOver250Scanner("fix2"));
     }
 
     /**
