@@ -21,11 +21,16 @@ public abstract class Report {
     protected final String TITLE = "";
 
     protected String header;
+    protected String header_grand;
 
     protected int totalLinesArrayPos;
 
+    protected ArrayList<Column> data = new ArrayList<Column>();
+    protected ArrayList<Column> grandSummary = new ArrayList<Column>();
+
     // Any generated reports will be added below.
     public static Report sourceAnalysis = new SourceAnalysis();
+    public static Report sourceReview = new SourceReview();
 
     /**
      * Accessor for totalLinesArrayPos
@@ -106,19 +111,38 @@ public abstract class Report {
 
     /**
      * Fills the columns with a single row of data (whatever was originally there + data)
-     * @param columns Columns to fill
-     * @param data Data to fill it with
-     * @return The filled columns
+     * @param newData Data to fill it with
      */
-    public static ArrayList<Column> fillColumn(ArrayList<Column> columns, ArrayList<String> data) {
-        for(int i = 0; i < columns.size(); i++) {
-            columns.get(i).addData(data.get(i));
+    public void fillColumn(ArrayList<String> newData) {
+        for(int i = 0; i < data.size(); i++) {
+            data.get(i).addData(newData.get(i));
         }
+    }
 
-        return columns;
+    public ArrayList<Column> getData() {
+        return this.data;
+    }
+
+    public ArrayList<Column> getGrandSummary() {
+        return this.grandSummary;
     }
 
     public String getHeader() {
         return this.header;
+    }
+
+    public String getHeader_grand() {
+        return this.header_grand;
+    }
+
+    public abstract void generateReports();
+
+    public static Report getReport(String input) {
+        if(input.equals("SourceAnalysis")) {
+            return sourceAnalysis;
+        } else if(input.equals("SourceReview")) {
+            return sourceReview;
+        }
+        return null;
     }
 }
