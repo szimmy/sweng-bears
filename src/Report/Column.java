@@ -64,10 +64,27 @@ public class Column {
 
     /**
      * Returns a total for the entire column
-     * @return The total of all the integers in the column
+     * @return The total of all the integers in the column and the total number of non zero entries
      */
-    public int totalNum() {
-        return 0; // TODO but cba since it isn't currently important
+    public ArrayList<Integer> totalNum() {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        int total = 0;
+        int numEntries = 0;
+        int temp = 0;
+
+        // The first 3 entries of the column are always filler like column name
+        for(int i = 3; i < data.size(); i++) {
+            temp = Integer.parseInt(data.get(i));
+            total += temp;
+            if(temp != 0) {
+                numEntries++;
+            }
+        }
+
+        result.add(total);
+        result.add(numEntries);
+
+        return result;
     }
 
     /**

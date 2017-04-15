@@ -58,7 +58,9 @@ public class FileScanner {
         }
 
         // Add the total number of lines to the specified location in the ArrayList (easier to do it this way than to have a seperate scan)
-        data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+        if(scan.getTotalLinesArrayPos() != -1) {
+            data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+        }
 
         return data;
 
