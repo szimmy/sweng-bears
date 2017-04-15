@@ -37,14 +37,17 @@ public class Controller {
     private static void chooseFiles(String [] args) {
         report.generateReportColumns();
 
-        if(args.length != 0) {
-            report = Report.getReport(args[0]); // program will error if input is not valid
-        }
-
         File files[] = getFiles(args);
 
-        for(int i = 1; i < files.length; i++) {
-            report.fillColumn(new FileScanner(files[i], new SourceAnalysis()).run());
+        if(args.length != 0) {
+            report = getReport(args[0]);
+        } else {
+            args = new String[1];
+            args[0] = "SourceReview";
+        }
+
+        for(int i = 0; i < files.length; i++) {
+            report.fillColumn(new FileScanner(files[i], getReport(args[0])).run());
         }
 
         // Prints the report
@@ -63,6 +66,16 @@ public class Controller {
 
         if(invalidFiles.size() != 0) {
             System.out.println("Invalid Files: " + invalidFiles.toString());
+        }
+    }
+
+    private static Report getReport(String s) {
+        Report temp = Report.getReport(s);
+
+        if(temp == null) {
+            return Report.sourceReview;
+        } else {
+            return temp;
         }
     }
 
@@ -108,7 +121,7 @@ public class Controller {
             return files;
         }
         File[] files = new File[args.length];
-        for (int i = 0; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             files[i] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
         }
         return files;
