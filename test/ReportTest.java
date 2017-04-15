@@ -350,5 +350,11 @@ public class ReportTest {
         System.out.println();
 
         Report.reportGeneration(Report.sourceReview.getHeader(), Report.sourceReview.generateReportColumns());
+
+        Report.reportGeneration(Report.sourceReview.getHeader_grand(), Report.sourceReview.getGrandSummary());
+
+        //System.out.println(Report.sourceReview.getHeader_grand());
+        //System.out.println();
+        //System.out.println(Report.sourceAnalysis.getHeader_grand());
     }
 }

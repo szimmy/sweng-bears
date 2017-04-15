@@ -46,6 +46,10 @@ public class SourceAnalysis extends Report {
         header += " +-- CMS-2 DIRECT --+";
         header += " +--- Total ---+";
 
+        header_grand = Column.padLeft("Source Analysis Summary", 78);
+        header_grand += "\n";
+        header_grand += Column.padLeft("Grand Summary", 77);
+
         scans.add(new HighLevelExecScanner());
         scans.add(new HighLevelDataScanner());
         scans.add(new CommentScanner());
@@ -66,8 +70,6 @@ public class SourceAnalysis extends Report {
      * @return The columns to be used for the report.
      */
     public ArrayList<Column> generateReportColumns() {
-        ArrayList<Column> data = new ArrayList<Column>();
-
         Column nameColumn = new Column(false, false, 10);
 
         nameColumn.addData("");
@@ -212,6 +214,102 @@ public class SourceAnalysis extends Report {
 
         data.add(delimtstmts);
 
+        // Grand Summary
+
+        Column empty = new Column(true, true, 19);
+
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+        empty.addData("");
+
+        grandSummary.add(empty);
+
+        Column labeling = new Column(true, true, 2);
+
+        labeling.addData("A-");
+        labeling.addData("B-");
+        labeling.addData("C-");
+        labeling.addData("D-");
+        labeling.addData("E-");
+        labeling.addData("F-");
+        labeling.addData("G-");
+        labeling.addData("H-");
+        labeling.addData("I-");
+        labeling.addData("J-");
+        labeling.addData("K-");
+        labeling.addData("");
+        labeling.addData("");
+        labeling.addData("");
+        labeling.addData("");
+        labeling.addData("");
+        labeling.addData("");
+
+        grandSummary.add(labeling);
+
+        // 38
+
+        Column expandedLabel = new Column(false, false, 40);
+
+        expandedLabel.addData("High Level Executable Statements");
+        expandedLabel.addData("High Level Executable Lines");
+        expandedLabel.addData("High Level Data Statements");
+        expandedLabel.addData("High Level Data Lines");
+        expandedLabel.addData("High Level Comment Statements");
+        expandedLabel.addData("High Level Comment Lines");
+        expandedLabel.addData("High Level Non-Comment Lines (B+D+H)");
+        expandedLabel.addData("High Level Other Statements");
+        expandedLabel.addData("Direct Code Executable Statements");
+        expandedLabel.addData("Direct Code Data Statements");
+        expandedLabel.addData("Direct Code Comment Statements");
+        expandedLabel.addData("TOTAL EXECUTABLE STATEMENTS (A+I)");
+        expandedLabel.addData("TOTAL LINES (F+G+I+J+K)");
+        expandedLabel.addData("CSWITCH Bracketed Statements");
+        expandedLabel.addData("MX LV (Maximum Structure Level)");
+        expandedLabel.addData("Average Number of DS per Procedure");
+        expandedLabel.addData("TOTAL DELIMITED STATEMENT COUNT");
+
+        grandSummary.add(expandedLabel);
+
+        Column numbers = new Column(true, true, 7);
+
+        grandSummary.add(numbers);
+
         return data;
     }
+
+    private void fillGrandSummary() {
+        Column numbers = grandSummary.get(3);
+
+        for(int i = 2; i <= 16; i++) {
+            numbers.addData("" + data.get(i).totalNum().get(0));
+        }
+        numbers.addData("0"); // For average number of delimited statements per procedure, not sure what to do there
+        numbers.addData("" + data.get(17).totalNum().get(0));
+    }
+
+    /**
+     * Have the Report generate all necessary reports
+     */
+    public void generateReports() {
+
+        Report.reportGeneration(this.header, this.data);
+        System.out.println();
+        fillGrandSummary();
+        Report.reportGeneration(this.header_grand, this.grandSummary);
+    }
+
 }

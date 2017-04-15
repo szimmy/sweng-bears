@@ -23,7 +23,27 @@ public class SourceReview extends Report {
         // The header String for the report
         header = Column.padLeft("Source Review Summary", 75);
 
+        header_grand = Column.padLeft("Source Review Summary", 75);
+        header_grand += "\n";
+        header_grand += Column.padLeft("Grand Summary", 71);
+        header_grand += "\n";
+        header_grand += Column.padLeft("Full class/Source", 73);
+
         // add scans
+        //NestdIncld
+        scans.add(new ProcedureOver250Scanner());
+        scans.add(new GotoScanner());
+        scans.add(new SystemNotStructured());
+        scans.add(new MisplacedEndSysScanner());
+        scans.add(new IncorrectFileExtension());
+        scans.add(new MultipleComponentsScanner());
+        scans.add(new ComponentFileMismatch());
+        scans.add(new SystemLetterMismatchScanner());
+        scans.add(new ModuleMnemonicScanner());
+        scans.add(new NonStandardScanner());
+        scans.add(new CSwitchScanner());
+        scans.add(new DirRefScanner());
+        scans.add(new AbstractNotFound());
 
     }
 
@@ -32,8 +52,6 @@ public class SourceReview extends Report {
      * @return The columns to be used for the report.
      */
     public ArrayList<Column> generateReportColumns() {
-        ArrayList<Column> data = new ArrayList<Column>();
-
         Column nameColumn = new Column(false, false, 10);
 
         nameColumn.addData("");
@@ -162,6 +180,100 @@ public class SourceReview extends Report {
 
         data.add(abstr);
 
+        // Grand Summary
+
+        Column labeling = new Column(true, true, 16); // Not sure what this column is supposed to mean exactly
+
+        labeling.addData("0CPS-3.1.1 5.1.5");
+        labeling.addData("0CPS-3.1.3 5.1.1");
+        labeling.addData("0CPS-3.1.3 5.1.3");
+        labeling.addData("0CPS-3.1.3 5.1.3");
+        labeling.addData("0CPS-3.1.3 5.1.3");
+        labeling.addData("0CPS-3.1.3 5.1.3");
+        labeling.addData("0CPS-3.1.3 5.1.2");
+        labeling.addData("0CPS-3.1.3 5.1.2");
+        labeling.addData("0CPS-3.1.3 5.1.2");
+        labeling.addData("0CPS-3.1.3 5.1.1");
+
+        grandSummary.add(labeling);
+
+        Column expandedLabel = new Column(false, false, 47);
+
+        expandedLabel.addData("GOTO statement found");
+        expandedLabel.addData("SYSTEM not structured");
+        expandedLabel.addData("Misplaced END-SYSTEM");
+        expandedLabel.addData("Incorrect file extension");
+        expandedLabel.addData("Multiple components in a file");
+        expandedLabel.addData("Component name/file mismatch");
+        expandedLabel.addData("System code letter mismatch");
+        expandedLabel.addData("Module mnemonic mismatch");
+        expandedLabel.addData("Non-standard prime procedure name");
+        expandedLabel.addData("Component abstract not found");
+
+        grandSummary.add(expandedLabel);
+
+        Column numOccurances = new Column(true, true, 3);
+
+        grandSummary.add(numOccurances);
+
+        Column occurances = new Column(false, false, 17);
+
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+        occurances.addData("occurrence(s) in");
+
+        grandSummary.add(occurances);
+
+        Column numModules = new Column(true, true, 2);
+
+        grandSummary.add(numModules);
+
+        Column modules = new Column(false, false, 18);
+
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+        modules.addData("module(s) detected");
+
+        grandSummary.add(modules);
+
         return data;
+    }
+
+    private void fillGrandSummary() {
+        Column numOccurances = grandSummary.get(2);
+        Column numModules = grandSummary.get(4);
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+
+        for(int i = 4; i <= 13; i++) {
+            temp = data.get(i).totalNum();
+            numOccurances.addData("" + temp.get(0));
+            numModules.addData("" + temp.get(1));
+        }
+        temp = data.get(15).totalNum();
+        numOccurances.addData("" + temp.get(0));
+        numModules.addData("" + temp.get(1));
+    }
+
+    /**
+     * Have the Report generate all necessary reports
+     */
+    public void generateReports() {
+        Report.reportGeneration(this.header, this.data);
+        fillGrandSummary();
+        Report.reportGeneration(this.header_grand, this.grandSummary);
     }
 }

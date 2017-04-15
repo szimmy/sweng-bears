@@ -13,9 +13,9 @@ import Reports.SourceAnalysis;
 
 public class Controller {
 
-    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
+    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir"); // TODO check if this works on linux
 
-    private static Report report = Report.sourceAnalysis;
+    private static Report report = Report.sourceReview; // default for now, will be changed to selection eventually
 
     /**
      * The main method of the program. Outputs the time the program takes to run.
@@ -35,16 +35,20 @@ public class Controller {
      * @param args Any filenames (entered at the command line) to be scanned
      */
     private static void chooseFiles(String [] args) {
-        ArrayList<Column> columns = report.generateReportColumns();
+        report.generateReportColumns();
+
+        if(args.length != 0) {
+            report = Report.getReport(args[0]); // program will error if input is not valid
+        }
 
         File files[] = getFiles(args);
 
-        for(int i = 0; i < files.length; i++) {
-            columns = Report.fillColumn(columns, new FileScanner(files[i], new SourceAnalysis()).run());
+        for(int i = 1; i < files.length; i++) {
+            report.fillColumn(new FileScanner(files[i], new SourceAnalysis()).run());
         }
 
         // Prints the report
-        Report.reportGeneration(report.getHeader(), columns);
+        report.generateReports();
 
         // An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
