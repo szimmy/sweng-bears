@@ -7,9 +7,6 @@ import CMS2Statements.Statement;
  */
 public class GotoScanner extends Scan {
 
-    /**
-     * The constructor for GotoScanner.
-     */
     public GotoScanner(){
         KEYWORD = "Goto";
         count = 0;

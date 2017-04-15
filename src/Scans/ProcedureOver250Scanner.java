@@ -15,17 +15,17 @@ public class ProcedureOver250Scanner extends Scan {
     public static TreeSet<String> procNames = new TreeSet<>();
     public static TreeSet<String> fileNames = new TreeSet<>();
     private String procName;
-    private String fileName;
+    private String fileName = "..";
 
     /**
      * Constructor for ProcedureOver250Scanner.
      */
-    public ProcedureOver250Scanner(String fileName) {
+    public ProcedureOver250Scanner() {
         KEYWORD = "Over250";
         count = 0; // in this case, count refers to the number of lines in a procedure
         inProcBlock = false;
         procName = "";
-        this.fileName = fileName;
+        //this.fileName = fileName;
     }
 
     /**

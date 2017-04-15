@@ -30,7 +30,7 @@ public class SourceReview extends Report {
         header_grand += Column.padLeft("Full class/Source", 73);
 
         // add scans
-        //NestdIncld
+        scans.add(new NestdInclScanner());
         scans.add(new ProcedureOver250Scanner());
         scans.add(new GotoScanner());
         scans.add(new SystemNotStructured());
@@ -41,7 +41,7 @@ public class SourceReview extends Report {
         scans.add(new SystemLetterMismatchScanner());
         scans.add(new ModuleMnemonicScanner());
         scans.add(new NonStandardScanner());
-        scans.add(new CSwitchScanner());
+        scans.add(new CSwitchRefncScanner());
         scans.add(new DirRefScanner());
         scans.add(new AbstractNotFound());
 
@@ -258,7 +258,7 @@ public class SourceReview extends Report {
         Column numModules = grandSummary.get(4);
         ArrayList<Integer> temp = new ArrayList<Integer>();
 
-        for(int i = 4; i <= 13; i++) {
+        for(int i = 4; i <= 12; i++) {
             temp = data.get(i).totalNum();
             numOccurances.addData("" + temp.get(0));
             numModules.addData("" + temp.get(1));
