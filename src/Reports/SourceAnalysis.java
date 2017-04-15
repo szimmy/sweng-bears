@@ -62,7 +62,6 @@ public class SourceAnalysis extends Report {
         scans.add(new TotalCSWTCScanner());
         scans.add(new TotalMXLVScanner());
         scans.add(new TotalDelimtStmtsScanner());
-
     }
 
     /**

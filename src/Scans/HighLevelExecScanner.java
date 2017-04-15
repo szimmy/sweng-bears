@@ -18,10 +18,10 @@ public class HighLevelExecScanner extends LineScan {
 
     public void scan(Statement statement) {
         if(!statement.isDirectCode()){
-            if(getFirstToken(statement.getText()).equals("SYS-PROC")) {
+            if(getFirstToken(statement.getText()).equals("PROCEDURE")) {
                 inExecBlock = true;
             }
-            else if(getFirstToken(statement.getText()).equals("END-SYS-PROC")) {
+            else if(getFirstToken(statement.getText()).equals("END-PROC")) {
                 inExecBlock = false;
             }
             else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")){ //Notice that SYS-PROC is not

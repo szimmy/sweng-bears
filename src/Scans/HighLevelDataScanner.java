@@ -6,26 +6,35 @@ import Reports.Entry;
 import java.util.ArrayList;
 
 /**
- * This class scans code for High Level Data Statements
+ * This class scans code for High Level Data Statements.
  */
 public class HighLevelDataScanner extends LineScan {
+
+    private boolean inDataBlock;
+
+    /**
+     * Constructor for HighLevelDataScanner.
+     */
     public HighLevelDataScanner() {
         KEYWORD = "Data";
         count = 0;
         lineCount = 0;
+        inDataBlock = false;
     }
 
-    // DID INCLUDE
-    // TABLE, END-TABLE, ITEM-AREA, TYPE, END-TYPE, DATA, SUB-TABLE, SUBTABLE
-    // UNSURE IF INCLUDED UNDER DATA STMTS
+    /**
+     * Scans a statement and counts it and its lines if it is a High Level Data Statement.
+     * (This method has been updated to more closely resemble HighLevelExecScanner's more efficient design.)
+     * @param statement The statement to be scanned
+     */
     public void scan(Statement statement) {
         String s = getFirstToken(statement.getText());
         if (!statement.isDirectCode()) {
-                if (
-                        s.equals("VRBL") || s.equals("FIELD") || s.equals("TABLE") ||
-                            s.equals("END-TABLE") || s.equals("ITEM-AREA") || s.equals("TYPE") ||
-                            s.equals("END-TYPE") || s.equals("DATA") || s.equals("SUB-TABLE") ||
-                            s.equals("SUBTABLE")) {
+            if (s.equals("SYS-DD")) {
+                inDataBlock = true;
+            } else if (s.equals("END-SYS-DD")) {
+                inDataBlock = false;
+            } else if (inDataBlock && !s.equals("COMMENT")) {
                 count++;
                 tallyLines(statement);
             }
