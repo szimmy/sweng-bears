@@ -10,6 +10,7 @@ public class Statement {
     int beginningLine;
     int endingLine;
     boolean directCode;
+    private boolean classified;
 
     /**
      * Constructor for the Statement
@@ -23,6 +24,7 @@ public class Statement {
         this.beginningLine = beginningLine;
         this.endingLine = endingLine;
         this.directCode = directCode;
+        this.classified = false;
     }
 
     /**
@@ -63,5 +65,13 @@ public class Statement {
      */
     public int getNumLines(){
         return endingLine - beginningLine + 1;
+    }
+
+    public boolean isClassified(){
+        return classified;
+    }
+
+    public void setClassified(boolean classified){
+        this.classified = classified;
     }
 }

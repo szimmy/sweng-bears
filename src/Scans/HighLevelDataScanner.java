@@ -37,6 +37,7 @@ public class HighLevelDataScanner extends LineScan {
             } else if (inDataBlock && !s.equals("COMMENT")) {
                 count++;
                 tallyLines(statement);
+                statement.setClassified(true);
             }
         }
     }
