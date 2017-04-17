@@ -23,6 +23,8 @@ public class AbstractNotFound extends Scan {
         KEYWORD = "Abstract";
         count = 0;
     }
+
+    // asdsdfsadfs
     public void scan(Statement statement) {
         String text = statement.getText();
         if (!statement.isDirectCode()) {
@@ -36,9 +38,8 @@ public class AbstractNotFound extends Scan {
             // Increments counter by 1 if a match is found
             else {
                 for (String s : keyWords) {
-                    if (!getFirstToken(text).equals("COMMENT") && text.contains(s)) {
+                    if (!getFirstToken(text).equals("COMMENT") && text.contains(s) && !text.contains("END-"+s)) {
                         count++;
-//                        System.out.println(getFirstToken(text) + " found");
                         break;
                     }
                 }
