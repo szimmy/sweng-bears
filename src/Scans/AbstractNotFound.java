@@ -38,7 +38,7 @@ public class AbstractNotFound extends Scan {
                 for (String s : keyWords) {
                     if (!getFirstToken(text).equals("COMMENT") && text.contains(s)) {
                         count++;
-                        System.out.println(getFirstToken(text) + " found");
+//                        System.out.println(getFirstToken(text) + " found");
                         break;
                     }
                 }

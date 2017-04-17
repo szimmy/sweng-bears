@@ -29,34 +29,39 @@ public class SystemNotStructuredScanner extends Scan {
     public void scan(Statement statement) {
         String s = getFirstToken(statement.getText());
         if (!statement.isDirectCode()) {
-            if (s.equals("SYSTEM")) {
-                if (!structure.isEmpty())
+            if (structure.isEmpty()) {
+                if (!s.equals("SYSTEM")) {
                     count++;
-                structure.add("SYSTEM");
+                } else {
+                    structure.add(s);
+                }
+            } else if (s.equals("SYSTEM")) {
+                count++;
+                structure.add(s);
             } else if (s.equals("HEAD")) {
                 if (!structure.get(structure.size()-1).equals("SYSTEM"))
                     count++;
-                structure.add("HEAD");
+                structure.add(s);
             } else if (s.equals("END-HEAD")) {
                 if (!structure.get(structure.size()-1).equals("HEAD"))
                     count++;
-                structure.add("END-HEAD");
+                structure.add(s);
             } else if (s.equals("SYS-DD")) {
                 if (!structure.get(structure.size()-1).equals("END-HEAD"))
                     count++;
-                structure.add("SYS-DD");
+                structure.add(s);
             } else if (s.equals("END-SYS-DD")) {
                 if (!structure.get(structure.size()-1).equals("SYS-DD"))
                     count++;
-                structure.add("END-SYS-DD");
+                structure.add(s);
             } else if (s.equals("SYS-PROC")) {
                 if (!structure.get(structure.size()-1).equals("END-SYS-DD"))
                     count++;
-                structure.add("SYS-PROC");
+                structure.add(s);
             } else if (s.equals("PROCEDURE")) {
                 if (!structure.get(structure.size()-1).equals("SYS-PROC"))
                     count++;
-                structure.add("PROCEDURE");
+                structure.add(s);
             } else if (s.equals("END-PROC")) {
                 if (!structure.get(structure.size()-1).equals("PROCEDURE"))
                     count++;
@@ -64,11 +69,11 @@ public class SystemNotStructuredScanner extends Scan {
             } else if (s.equals("END-SYS-PROC")) {
                 if (!structure.get(structure.size()-1).equals("SYS-PROC"))
                     count++;
-                structure.add("END-SYS-PROC");
+                structure.add(s);
             } else if (s.equals("END-SYSTEM")) {
                 if (!structure.get(structure.size()-1).equals("END-SYS-PROC"))
                     count++;
-                structure.add("END-SYSTEM");
+                structure.add(s);
             } else if (structure.get(structure.size()-1).equals("END-SYSTEM")) {
                 count++;
             }
