@@ -1,15 +1,75 @@
 package Scans;
 
 import CMS2Statements.Statement;
+import Reports.Entry;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TotalMXLVScanner extends Scan {
+    private int maxStructLevel;
+    private int currentStructLevel;
 
-    public TotalMXLVScanner() {
+    private ArrayList<String> structIncreasers = new ArrayList<>(Arrays.asList(
+            "SYSTEM", // "END-SYSTEM",
+            "SYS-DD",// "END-SYS-DD",
+            "SYS-PROC",// "END-SYS-PROC",
+            "LOC-DD",// "END-LOC-DD",
+            "PROCEDURE",// "END-PROC",
+            "EXEC-PROC",// "END-PROC",
+            "FUNCTION",// "END-FUNCTION",
+            "SYS-PROC-REN",// "END-SYS-PROC",
+            "AUTO-DD",// "END-AUTO-DD",
+            "HEAD"//, "END-HEAD"
+    ));
+
+    private ArrayList<String> structDecreasers = new ArrayList<>(Arrays.asList(
+            "END-SYSTEM",
+            "END-SYS-DD",
+            "END-SYS-PROC",
+            "END-LOC-DD",
+            "END-PROC",
+            "END-FUNCTION",
+            "END-SYS-PROC",
+            "END-AUTO-DD",
+            "END-HEAD"
+    ));
+
+    public TotalMXLVScanner(){
+        super();
+        maxStructLevel = 0;
+        currentStructLevel = 0;
         KEYWORD = "MX LV";
-        count = 0;
     }
 
-    public void scan(Statement statement) {
-        // TODO
+    public void scan(Statement statement){
+        // This acts under the assumption that the file is formatted properly.
+        // If it is not then it max structure level can not be determined.
+        if(structIncreasers.contains(getFirstToken(statement.getText()))){
+            updateStructLevel(currentStructLevel + 1);
+        }
+        else if(structDecreasers.contains(getFirstToken(statement.getText()))){
+            updateStructLevel(currentStructLevel - 1);
+        } else if(statement.getText().toLowerCase().contains(" begin ")){
+            updateStructLevel(currentStructLevel + 1);
+        } else if(statement.getText().toLowerCase().contains(" end ")){
+            updateStructLevel(currentStructLevel - 1);
+        }
     }
+
+    public ArrayList<Entry> getData() {
+        ArrayList<Entry> data = new ArrayList<Entry>();
+
+        data.add(new Entry(KEYWORD, maxStructLevel));
+
+        return data;
+    }
+
+    private void updateStructLevel(int newStructLevel){
+        currentStructLevel = newStructLevel;
+        if(currentStructLevel > maxStructLevel){
+            maxStructLevel = currentStructLevel;
+        }
+    }
+
 }
