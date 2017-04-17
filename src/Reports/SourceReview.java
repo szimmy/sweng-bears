@@ -6,15 +6,23 @@ import Report.Column;
 import java.util.ArrayList;
 
 /**
- * Created by Zim on 4/10/2017.
+ * SourceReview is a type of report which scans select features of CMS-2Y code. These features are:
+ * Goto Statements
+ * Structure Missing
+ * Missing End System
+ * Incorrect File Extension
+ * Multiple Components
+ * System Letter Mismatch
+ * Module Mnemonic
+ * Non-Standard Prime
+ * CSwitch Bracketed Statements
+ * Direct References
+ * Abstract Missing
+ *
+ * @author Sean Zimmerman
  */
 public class SourceReview extends Report {
-    // Title of the report to be used in the report.
-    private final String TITLE = "Source Analysis Summary";
 
-    /**
-     * The constructor for the SourceReview
-     */
     public SourceReview() {
         this.totalLinesArrayPos = -1;
 
@@ -29,7 +37,6 @@ public class SourceReview extends Report {
         header_grand += "\n";
         header_grand += Column.padLeft("Full class/Source", 73);
 
-        // add scans
         scans.add(new NestdInclScanner());
         scans.add(new ProcedureOver250Scanner());
         scans.add(new GotoScanner());
@@ -44,7 +51,6 @@ public class SourceReview extends Report {
         scans.add(new CSwitchRefncScanner());
         scans.add(new DirRefScanner());
         scans.add(new AbstractNotFound());
-
     }
 
     /**

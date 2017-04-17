@@ -26,14 +26,11 @@ import java.util.ArrayList;
  *   CSWTC Statements
  *   MX LV
  *   Delimt Statements
+ *
+ * @author Sean Zimmerman
  */
 public class SourceAnalysis extends Report {
-    // Title of the report to be used in the report.
-    private final String TITLE = "Source Analysis Summary";
 
-    /**
-     * The constructor for the SourceAnalysis
-     */
     public SourceAnalysis() {
         this.totalLinesArrayPos = 14;
 
@@ -290,6 +287,9 @@ public class SourceAnalysis extends Report {
         return data;
     }
 
+    /**
+     * Fills the columns of the grand summary with totals of the data columns
+     */
     private void fillGrandSummary() {
         Column numbers = grandSummary.get(3);
 
