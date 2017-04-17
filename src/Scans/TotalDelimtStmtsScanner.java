@@ -30,7 +30,7 @@ public class TotalDelimtStmtsScanner extends Scan {
      */
     public void scan(Statement statement) {
         String text = getFirstToken(statement.getText());
-        System.out.println(text);
+//        System.out.println(text);
         if (!statement.isDirectCode()) {
             for (String s : delimiters) {
                 if (text.equals(s)) {
