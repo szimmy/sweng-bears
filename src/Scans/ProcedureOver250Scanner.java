@@ -13,9 +13,9 @@ public class ProcedureOver250Scanner extends Scan {
 
     private boolean inProcBlock;
     public static TreeSet<String> procNames = new TreeSet<>();
-    public static TreeSet<String> fileNames = new TreeSet<>();
+//    public static TreeSet<String> fileNames = new TreeSet<>();
     private String procName;
-    private String fileName = "..";
+//    private String fileName = "..";
 
     /**
      * Constructor for ProcedureOver250Scanner.
@@ -44,7 +44,7 @@ public class ProcedureOver250Scanner extends Scan {
             count += statement.getNumLines();
             if (count > 250) {
                 procNames.add(procName);
-                fileNames.add(fileName);
+//                fileNames.add(fileName);
                 inProcBlock = false; // no need to check for more lines
             }
         }

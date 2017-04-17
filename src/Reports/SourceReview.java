@@ -13,7 +13,7 @@ public class SourceReview extends Report {
     private final String TITLE = "Source Analysis Summary";
 
     /**
-     * The constructor for the SourceAnalysis
+     * The constructor for the SourceReview
      */
     public SourceReview() {
         this.totalLinesArrayPos = -1;
@@ -33,7 +33,7 @@ public class SourceReview extends Report {
         scans.add(new NestdInclScanner());
         scans.add(new ProcedureOver250Scanner());
         scans.add(new GotoScanner());
-        scans.add(new SystemNotStructured());
+        scans.add(new SystemNotStructuredScanner());
         scans.add(new MisplacedEndSysScanner());
         scans.add(new IncorrectFileExtension());
         scans.add(new MultipleComponentsScanner());

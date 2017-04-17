@@ -63,8 +63,16 @@ public class StatementReader {
                     statementText += part;
                     if (!inDirectBlock) {
                         if (statementText.contains("$")) {
+                            //New code, test
+                            int dotIndex = statementText.indexOf('.');
+                            String label = "";
+                            if(dotIndex != -1 && isLabel(statementText, dotIndex)){
+                                label = statementText.substring(0, dotIndex + 1);
+                                statementText = statementText.substring(dotIndex + 1);
+                            }
+                            //End new code
                             statements.add(new Statement(statementText,
-                                    stmtStartLine, lineNum, false));
+                                    stmtStartLine, lineNum, false, label));
                             if (getFirstToken(statementText).equals("DIRECT")) {
                                 inDirectBlock = true;
                             }
@@ -76,9 +84,9 @@ public class StatementReader {
                         statementText = line;
                         if (getFirstToken(statementText).equals("CMS-2")) {
                             inDirectBlock = false;
-                            statements.add(new Statement(statementText, stmtStartLine, lineNum, false));
+                            statements.add(new Statement(statementText, stmtStartLine, lineNum, false, ""));
                         } else {
-                            statements.add(new Statement(statementText, stmtStartLine, lineNum, true));
+                            statements.add(new Statement(statementText, stmtStartLine, lineNum, true, ""));
                         }
                         statementText = "";
                         stmtStartLine = -1;
@@ -203,4 +211,16 @@ public class StatementReader {
         }
         return result;
     }
+
+    //The CMS2-Y Programming guide states that a dot ".", can be used for 3 things.
+    //  1. To mark a label, what we are looking for.
+    //  2. As a decimal point. Easy to rule out. If it is proceeded by an alphabetic character it can't be this.
+    //  3. As a decimal point in octal (a radix point). The same check will work.
+    // Must also check that the . isn't in a comment of course.
+    private boolean isLabel(String statementText, int dotIndex){
+        return  dotIndex >= 1
+                && !getFirstToken(statementText).toLowerCase().equals("comment")
+                && Character.isAlphabetic(statementText.charAt(dotIndex - 1));
+    }
+
 }
