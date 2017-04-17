@@ -17,7 +17,7 @@ public class Controller {
 
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir"); // TODO check if this works on linux
 
-    private static Report report = Report.sourceReview; // default just to have something
+    private static Report report = new SourceAnalysis(); // default just to have something
 
     /**
      * The main method of the program. Outputs the time the program takes to run.
@@ -86,7 +86,7 @@ public class Controller {
         Report temp = Report.getReport(s);
 
         if(temp == null) {
-            return Report.sourceReview;
+            return new SourceAnalysis();
         } else {
             return temp;
         }
