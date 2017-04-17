@@ -139,10 +139,8 @@ public abstract class Report {
 
     public static Report getReport(String input) {
         if(input.equals("SourceAnalysis")) {
-            //return sourceAnalysis;
             return new SourceAnalysis();
         } else if(input.equals("SourceReview")) {
-            //return sourceReview;
             return new SourceReview();
         }
         return null;
