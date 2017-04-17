@@ -30,6 +30,5 @@ public class HighLevelExecScanner extends LineScan {
                 statement.setClassified(true);
             }
         }
-
     }
 }
