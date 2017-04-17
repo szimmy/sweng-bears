@@ -30,7 +30,7 @@ public class AbstractNotFound extends Scan {
             // Decrements counter by 1 if true
             if (getFirstToken(text).equals("COMMENT") && text.contains("ABSTRACT")) {
                 count--;
-                System.out.println("FOUND ABSTRACT");
+//                System.out.println("FOUND ABSTRACT");
             }
             //Checks if a statement that requires an ABSTRACT has begun
             // Increments counter by 1 if a match is found

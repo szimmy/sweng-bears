@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import Report.Column;
 import Reports.Report;
 import Reports.SourceAnalysis;
+import javafx.scene.control.RadioButton;
+import jdk.nashorn.internal.scripts.JO;
 
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
@@ -35,7 +37,6 @@ public class Controller {
      * @param args Any filenames (entered at the command line) to be scanned
      */
     private static void chooseFiles(String [] args) {
-        report.generateReportColumns();
 
         File files[] = getFiles(args);
 
@@ -43,8 +44,25 @@ public class Controller {
             report = getReport(args[0]);
         } else {
             args = new String[1];
-            args[0] = "SourceReview";
+
+            String[] choiceOptions = {"Source Analysis", "Source Review"};
+            int choice = JOptionPane.showOptionDialog(null,
+                    "Which type of summary do you want?",
+                    "Which Report?",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    choiceOptions,
+                    choiceOptions[0]);
+            if (choice == 0) {
+                args[0] = "SourceAnalysis";
+            } else {
+                args[0] = "SourceReview";
+            }
+            report = getReport(args[0]);
         }
+
+        report.generateReportColumns();
 
         for(int i = 0; i < files.length; i++) {
             report.fillColumn(new FileScanner(files[i], getReport(args[0])).run());
