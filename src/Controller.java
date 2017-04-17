@@ -17,18 +17,14 @@ public class Controller {
 
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir"); // TODO check if this works on linux
 
-    private static Report report = Report.sourceReview; // default for now, will be changed to selection eventually
+    private static Report report = Report.sourceReview; // default just to have something
 
     /**
      * The main method of the program. Outputs the time the program takes to run.
      * @param args Any filenames (entered at the command line) to be scanned
      */
     public static void main(String args[]) {
-        long startTime = System.nanoTime();
         chooseFiles(args);
-        long endTime = System.nanoTime();
-        long output = endTime - startTime;
-        System.out.println("Elapsed time in milliseconds: " + output / 1000000);
         System.exit(0);
     }
 
@@ -37,7 +33,6 @@ public class Controller {
      * @param args Any filenames (entered at the command line) to be scanned
      */
     private static void chooseFiles(String [] args) {
-
         File files[] = getFiles(args);
 
         if(args.length != 0) {
