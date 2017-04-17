@@ -11,6 +11,7 @@ public class Statement {
     private int endingLine;
     private boolean directCode;
     private String label;
+    private boolean classified;
 
     /**
      * Constructor for the Statement
@@ -26,6 +27,7 @@ public class Statement {
         this.endingLine = endingLine;
         this.directCode = directCode;
         this.label = label;
+        this.classified = false;
     }
 
     /**
