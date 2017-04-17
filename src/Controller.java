@@ -3,6 +3,8 @@ import java.io.File;
 import java.util.ArrayList;
 import Report.Column;
 import Reports.Report;
+import Reports.SourceAnalysis;
+
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
  *
@@ -11,33 +13,47 @@ import Reports.Report;
 
 public class Controller {
 
-    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
+    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir"); // TODO check if this works on linux
 
-    private final static JFileChooser chooser = new JFileChooser();
+    private static Report report = Report.sourceReview; // default for now, will be changed to selection eventually
 
+    /**
+     * The main method of the program. Outputs the time the program takes to run.
+     * @param args Any filenames (entered at the command line) to be scanned
+     */
     public static void main(String args[]) {
+        long startTime = System.nanoTime();
         chooseFiles(args);
+        long endTime = System.nanoTime();
+        long output = endTime - startTime;
+        System.out.println("Elapsed time in milliseconds: " + output / 1000000);
+        System.exit(0);
     }
 
     /**
      * Choose the files and run the scan on them.
+     * @param args Any filenames (entered at the command line) to be scanned
      */
     private static void chooseFiles(String [] args) {
-        ArrayList<ArrayList<String>> scans = new ArrayList<>();
-        // Uses method getFiles(); to create an array files of type File
+        report.generateReportColumns();
+
         File files[] = getFiles(args);
-        // Adds an ArrayList of the scanned data on each File in files to an ArrayList scans by performing
-        // FileScanner.run()
-        for(int i=0;i<files.length;i++) {
-            if(validExtension(getExtension(files[i]))) {
-                scans.add(new FileScanner(files[i], Report.sourceAnalysis).run()); // run source analysis as default for now
-            }
+
+        if(args.length != 0) {
+            report = getReport(args[0]);
+        } else {
+            args = new String[1];
+            args[0] = "SourceReview";
         }
 
-        //Prints the information scanned to the terminal from ArrayList scans
-        Report.reportGeneration(Report.sourceAnalysis.getHeader(), fillColumns(scans));
+        for(int i = 0; i < files.length; i++) {
+            report.fillColumn(new FileScanner(files[i], getReport(args[0])).run());
+        }
 
-        //An ArrayList of type String to keep track of invalid Files that were selected to scan
+        // Prints the report
+        report.generateReports();
+
+        // An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
 
 
@@ -53,27 +69,14 @@ public class Controller {
         }
     }
 
-    /**
-     * Fill the Columns of the generated report with the output data
-     * @param data The data to fill the report
-     * @return The filled columns
-     */
-    private static ArrayList<Column> fillColumns(ArrayList<ArrayList<String>> data) {
-        ArrayList<Column> result = Report.sourceAnalysis.generateReportColumns();
+    private static Report getReport(String s) {
+        Report temp = Report.getReport(s);
 
-        Column tempColumn;
-        ArrayList<String> tempArrayList;
-
-        // Add the data from data to the columns
-        for(int i = 0; i < result.size(); i++) { // for every column
-            tempColumn = result.get(i);
-            for(int j = 0; j < data.size(); j++) { // for every row, all rows are the same fixed size by definition
-                tempArrayList = data.get(j);
-                tempColumn.addData(tempArrayList.get(i)); // add the corresponding element to the column from that row
-            }
+        if(temp == null) {
+            return Report.sourceReview;
+        } else {
+            return temp;
         }
-
-        return result;
     }
 
     /**
@@ -118,7 +121,7 @@ public class Controller {
             return files;
         }
         File[] files = new File[args.length];
-        for (int i = 0; i < args.length; i++) {
+        for (int i = 1; i < args.length; i++) {
             files[i] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
         }
         return files;

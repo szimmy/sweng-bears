@@ -2,7 +2,7 @@ import CMS2Statements.StatementReader;
 import CMS2Statements.Statement;
 import Reports.Entry;
 import Reports.Report;
-import Scans.Scan;
+import Scans.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class FileScanner {
     /**
      * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
      * which is used to store the data. Creates a new HashMap which save the data scanned.
-     * @param file
-     * @param scan
+     * @param file the File to be scanned
+     * @param scan the Report for the FileScanner
      */
     public FileScanner(File file, Report scan) {
         this.stmtReader = new StatementReader(file);
@@ -32,6 +32,7 @@ public class FileScanner {
     }
 
     /**
+     * Runs the FileScanner.
      * @return ArrayList<String> An ArrayList of the data gained in the scan
      */
     public ArrayList<String> run() {
@@ -57,7 +58,13 @@ public class FileScanner {
         }
 
         // Add the total number of lines to the specified location in the ArrayList (easier to do it this way than to have a seperate scan)
-        data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+        if(scan.getTotalLinesArrayPos() != -1) {
+            data.add(scan.getTotalLinesArrayPos(), String.valueOf(stmtReader.numLines()));
+        }
+
+//        System.out.println(Procedure230to250Scanner.procNames);
+//        System.out.println(ProcedureOver250Scanner.procNames);
+//        System.out.println(ProcedureOver250Scanner.fileNames);
 
         return data;
 

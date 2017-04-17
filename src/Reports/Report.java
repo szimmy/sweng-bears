@@ -2,17 +2,14 @@ package Reports;
 
 import Report.Column;
 import Scans.Scan;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * A Report consistents of a collection of Scans that the user wants to run on the given input file.
- * All subclasses of report will be stored as static variables in Report.java.
  * To create a new report, make a subclass of whatever title, and in the default constructor
  * instantiate scans with whatever scan objects desired.
  * Then fill in the functionality for generateReport().
  *
- * Basic report template is included in *TO BE DETERMINED*.
  *
  * @author Sean Zimmerman
  */
@@ -24,12 +21,21 @@ public abstract class Report {
     protected final String TITLE = "";
 
     protected String header;
+    protected String header_grand;
 
     protected int totalLinesArrayPos;
 
+    protected ArrayList<Column> data = new ArrayList<Column>();
+    protected ArrayList<Column> grandSummary = new ArrayList<Column>();
+
     // Any generated reports will be added below.
     public static Report sourceAnalysis = new SourceAnalysis();
+    public static Report sourceReview = new SourceReview();
 
+    /**
+     * Accessor for totalLinesArrayPos
+     * @return an array position later used by FileScanner
+     */
     public int getTotalLinesArrayPos() {
         return totalLinesArrayPos;
     }
@@ -40,10 +46,18 @@ public abstract class Report {
      */
     public abstract ArrayList<Column> generateReportColumns();
 
+    /**
+     * Accessor for scans
+     * @return the scans in this Report
+     */
     public ArrayList<Scan> getScans() {
         return this.scans;
     }
 
+    /**
+     * Accessor for TITLE
+     * @return the title of this Report
+     */
     public String getTITLE() {
         return this.TITLE;
     }
@@ -95,7 +109,40 @@ public abstract class Report {
         return result;
     }
 
+    /**
+     * Fills the columns with a single row of data (whatever was originally there + data)
+     * @param newData Data to fill it with
+     */
+    public void fillColumn(ArrayList<String> newData) {
+        for(int i = 0; i < data.size(); i++) {
+            data.get(i).addData(newData.get(i));
+        }
+    }
+
+    public ArrayList<Column> getData() {
+        return this.data;
+    }
+
+    public ArrayList<Column> getGrandSummary() {
+        return this.grandSummary;
+    }
+
     public String getHeader() {
         return this.header;
+    }
+
+    public String getHeader_grand() {
+        return this.header_grand;
+    }
+
+    public abstract void generateReports();
+
+    public static Report getReport(String input) {
+        if(input.equals("SourceAnalysis")) {
+            return new SourceAnalysis();
+        } else if(input.equals("SourceReview")) {
+            return new SourceReview();
+        }
+        return null;
     }
 }

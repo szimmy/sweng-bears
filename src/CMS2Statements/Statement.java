@@ -1,6 +1,8 @@
 package CMS2Statements;
 
 /**
+ * Represents a statement of code.
+ *
  * Created by Jay on 3/11/2017.
  */
 public class Statement {
@@ -11,7 +13,7 @@ public class Statement {
     private String label;
 
     /**
-     *
+     * Constructor for the Statement
      * @param text              The text of a statement
      * @param beginningLine     The line the statement begins on
      * @param endingLine        The line the statement end on
@@ -26,23 +28,51 @@ public class Statement {
         this.label = label;
     }
 
+    /**
+     * Accessor for text
+     * @return the statement's text
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Accessor for beginningLine
+     * @return the location of the line the statement starts on
+     */
     public int getBeginningLine() {
         return beginningLine;
     }
 
+    /**
+     * Accessor for endinggLine
+     * @return the location of the line the statement ends on
+     */
     public int getEndingLine() {
         return endingLine;
     }
 
+    /**
+     * Accessor for directCode
+     * @return whether or not the statement is Direct Code
+     */
     public boolean isDirectCode() {
         return directCode;
     }
 
+    /**
+     * Accessor for getNumLines
+     * @return the number of lines the statement occupies
+     */
     public int getNumLines(){
         return endingLine - beginningLine + 1;
+    }
+
+    public boolean isClassified(){
+        return classified;
+    }
+
+    public void setClassified(boolean classified){
+        this.classified = classified;
     }
 }
