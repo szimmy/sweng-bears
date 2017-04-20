@@ -135,7 +135,7 @@ public class Controller {
         }
         File[] files = new File[args.length];
         for (int i = 1; i < args.length; i++) {
-            files[i-1] = new File(DEFAULTDIRECTORY + "\\" + args[i-1]);
+            files[i-1] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
         }
         return files;
     }
