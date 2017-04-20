@@ -133,7 +133,7 @@ public class Controller {
             File[] files = chooser.getSelectedFiles();
             return files;
         }
-        File[] files = new File[args.length];
+        File[] files = new File[args.length-1];
         for (int i = 1; i < args.length; i++) {
             files[i-1] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
         }
