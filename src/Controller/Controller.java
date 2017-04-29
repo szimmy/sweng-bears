@@ -1,11 +1,11 @@
+package Controller;
+
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import Report.Column;
+
 import Reports.Report;
 import Reports.SourceAnalysis;
-import javafx.scene.control.RadioButton;
-import jdk.nashorn.internal.scripts.JO;
 
 /**
  * Contains the main method of the program. Takes in file(s) and runs selected reports on them.
