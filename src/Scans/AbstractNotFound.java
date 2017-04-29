@@ -24,7 +24,6 @@ public class AbstractNotFound extends Scan {
         count = 0;
     }
 
-    // asdsdfsadfs
     public void scan(Statement statement) {
         String text = statement.getText();
         if (!statement.isDirectCode()) {
