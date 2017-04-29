@@ -28,16 +28,18 @@ public class HighLevelDataScanner extends LineScan {
      * @param statement The statement to be scanned
      */
     public void scan(Statement statement) {
-        String s = getFirstToken(statement.getText());
-        if (!statement.isDirectCode()) {
-            if (s.equals("SYS-DD")) {
-                inDataBlock = true;
-            } else if (s.equals("END-SYS-DD")) {
-                inDataBlock = false;
-            } else if (inDataBlock && !s.equals("COMMENT")) {
-                count++;
-                tallyLines(statement);
-                statement.setClassified(true);
+        String s = statement.getText();
+        if (!getFirstToken(s).equals("COMMENT")) {
+            if (!statement.isDirectCode()) {
+                if (s.contains("END-SYS-DD")) {
+                    inDataBlock = false;
+                } else if (s.contains("SYS-DD")) {
+                    inDataBlock = true;
+                } else if (inDataBlock) {
+                    count++;
+                    tallyLines(statement);
+                    statement.setClassified(true);
+                }
             }
         }
     }

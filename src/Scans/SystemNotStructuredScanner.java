@@ -27,17 +27,18 @@ public class SystemNotStructuredScanner extends Scan {
      * @param statement The statement to be scanned
      */
     public void scan(Statement statement) {
-        String s = getFirstToken(statement.getText());
+        String sT  = statement.getText();
+        String s = getFirstToken(sT);
         if (!statement.isDirectCode()) {
             if (structure.isEmpty()) {
-                if (!s.equals("SYSTEM")) {
+                if (!sT.contains("SYSTEM") || sT.contains("END-SYSTEM") || s.equals("COMMENT")) {
                     count++;
                 } else {
-                    structure.add(s);
+                    structure.add("SYSTEM");
                 }
-            } else if (s.equals("SYSTEM")) {
+            } else if (sT.contains("SYSTEM") && !sT.contains("END-SYSTEM") && !s.equals("COMMENT")) {
                 count++;
-                structure.add(s);
+                structure.add("SYSTEM");
             } else if (s.equals("HEAD")) {
                 if (!structure.get(structure.size()-1).equals("SYSTEM"))
                     count++;
@@ -46,18 +47,18 @@ public class SystemNotStructuredScanner extends Scan {
                 if (!structure.get(structure.size()-1).equals("HEAD"))
                     count++;
                 structure.add(s);
-            } else if (s.equals("SYS-DD")) {
+            } else if (sT.contains("SYS-DD") && !sT.contains("END-SYS-DD") && !s.equals("COMMENT")) {
                 if (!structure.get(structure.size()-1).equals("END-HEAD"))
                     count++;
-                structure.add(s);
+                structure.add("SYS-DD");
             } else if (s.equals("END-SYS-DD")) {
                 if (!structure.get(structure.size()-1).equals("SYS-DD"))
                     count++;
                 structure.add(s);
-            } else if (s.equals("SYS-PROC")) {
+            } else if (sT.contains("SYS-PROC") && !sT.contains("END-SYS-PROC") && !s.equals("COMMENT")) {
                 if (!structure.get(structure.size()-1).equals("END-SYS-DD"))
                     count++;
-                structure.add(s);
+                structure.add("SYS-PROC");
             } else if (s.equals("PROCEDURE")) {
                 if (!structure.get(structure.size()-1).equals("SYS-PROC"))
                     count++;
