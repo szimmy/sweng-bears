@@ -43,8 +43,7 @@ public class FileScanner {
         }
 
         // Add the file name and type to the data
-        String fileNameWithOutExt = file.getName().replaceFirst("[.][^.]+$", ""); // remove the first dot followed by any characters
-        data.add(fileNameWithOutExt);
+        data.add(Controller.currentFileName);
         data.add("SYST");
 
         // Add the output of all of the scans into the ArrayList
