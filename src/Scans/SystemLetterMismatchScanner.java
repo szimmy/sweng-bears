@@ -18,7 +18,7 @@ public class SystemLetterMismatchScanner extends Scan {
      * Detemines if the first 3 characters of a procedure name do not match the first 3 characters of the file name
      * @param statement The statement to be scanned
      */
-    public void scan(Statement statement){
+    public void scan(Statement statement) {
         fileNameChars = Controller.currentFileName.substring(0,3);
         String firstTok = getFirstToken(statement.getText());
         String secondTok = getSecondToken(statement.getText());

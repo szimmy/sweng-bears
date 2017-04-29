@@ -22,7 +22,7 @@ public class NonStandardScanner extends Scan {
      * Determines if the suffix of the procedure name is one of the approved suffixes
      * @param statement The statement to be scanned
      */
-    public void scan(Statement statement){
+    public void scan(Statement statement) {
         found = false;
         String firstTok = getFirstToken(statement.getText());
         String secondTok = getSecondToken(statement.getText());
