@@ -9,13 +9,17 @@ import Controller.Controller;
 public class SystemLetterMismatchScanner extends Scan {
     private String fileNameChars;
 
-    public SystemLetterMismatchScanner(){
+    public SystemLetterMismatchScanner() {
         KEYWORD = "Systm Lettr";
         count = 0;
-        fileNameChars = Controller.currentFileName.substring(0,3);
     }
 
+    /**
+     * Detemines if the first 3 characters of a procedure name do not match the first 3 characters of the file name
+     * @param statement The statement to be scanned
+     */
     public void scan(Statement statement){
+        fileNameChars = Controller.currentFileName.substring(0,3);
         String firstTok = getFirstToken(statement.getText());
         String secondTok = getSecondToken(statement.getText());
 

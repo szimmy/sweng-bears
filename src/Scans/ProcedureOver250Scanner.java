@@ -62,19 +62,4 @@ public class ProcedureOver250Scanner extends Scan {
 
         return data;
     }
-
-    /**
-     * Provides the second token of a Statement (so we can get procedure names).
-     * @param statement The Statement to be read
-     * @return the second token statement
-     */
-    private String getSecondToken(String statement) {
-        String s;
-        if(statement.trim().contains(" ")){
-            s = statement.trim().substring(statement.trim().indexOf(" ")).trim();
-            s = s.trim();
-            return getFirstToken(s);
-        }
-        return statement.trim();
-    }
 }
