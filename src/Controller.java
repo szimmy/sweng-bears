@@ -15,6 +15,7 @@ import jdk.nashorn.internal.scripts.JO;
 
 public class Controller {
 
+    public static String currentFileName = "";
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir"); // TODO check if this works on linux
 
     private static Report report = new SourceAnalysis(); // default just to have something
@@ -60,6 +61,7 @@ public class Controller {
         report.generateReportColumns();
 
         for(int i = 0; i < files.length; i++) {
+            currentFileName = files[i].getName().replaceFirst("[.][^.]+$", ""); // removes the file extension
             report.fillColumn(new FileScanner(files[i], getReport(args[0])).run());
         }
 
