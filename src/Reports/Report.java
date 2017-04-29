@@ -25,7 +25,7 @@ public abstract class Report {
 
     /**
      * Accessor for totalLinesArrayPos
-     * @return an array position later used by FileScanner
+     * @return an array position later used by Controller.FileScanner
      */
     public int getTotalLinesArrayPos() {
         return totalLinesArrayPos;

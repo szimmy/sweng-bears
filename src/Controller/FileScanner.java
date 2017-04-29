@@ -1,3 +1,5 @@
+package Controller;
+
 import CMS2Statements.StatementReader;
 import CMS2Statements.Statement;
 import Reports.Entry;
@@ -17,10 +19,10 @@ public class FileScanner {
     private StatementReader stmtReader;
  
     /**
-     * Constructor for FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
+     * Constructor for Controller.FileScanner. Takes in file type File, which the the file being scanned and scan type Reports.ReportContent
      * which is used to store the data. Creates a new HashMap which save the data scanned.
      * @param file the File to be scanned
-     * @param scan the Report for the FileScanner
+     * @param scan the Report for the Controller.FileScanner
      */
     public FileScanner(File file, Report scan) {
         this.stmtReader = new StatementReader(file);
@@ -30,7 +32,7 @@ public class FileScanner {
     }
 
     /**
-     * Runs the FileScanner.
+     * Runs the Controller.FileScanner.
      * @return ArrayList<String> An ArrayList of the data gained in the scan
      */
     public ArrayList<String> run() {
