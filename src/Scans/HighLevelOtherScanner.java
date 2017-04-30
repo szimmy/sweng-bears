@@ -10,6 +10,9 @@ public class HighLevelOtherScanner extends Scan {
     }
 
     public void scan(Statement statement) {
-        // TODO
+        if(!statement.isDirectCode() && !statement.isClassified()){
+            statement.setClassified(true);
+            count++;
+        }
     }
 }

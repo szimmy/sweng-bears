@@ -7,6 +7,11 @@ import java.util.ArrayList;
  * Test for the report output in Reports.Report.
  */
 public class ReportTest {
+
+    /**
+     * The main method for ReportTest.
+     * @param args The command line input
+     */
     public static void main(String[] args) {
         ArrayList<Column> data = new ArrayList<Column>();
 
@@ -334,6 +339,22 @@ public class ReportTest {
 
         data.add(delimtstmts);
 
-        Report.reportGeneration(Report.sourceAnalysis.getHeader(), data);
+        //Report.reportGeneration(Report.sourceAnalysis.getHeader(), data);
+
+        System.out.println();
+        System.out.println("End Source Analysis Test");
+        System.out.println();
+        System.out.println();
+        System.out.println("Begin Source Review Test");
+        System.out.println();
+        System.out.println();
+
+        //Report.reportGeneration(Report.sourceReview.getHeader(), Report.sourceReview.generateReportColumns());
+
+        //Report.reportGeneration(Report.sourceReview.getHeader_grand(), Report.sourceReview.getGrandSummary());
+
+        //System.out.println(Report.sourceReview.getHeader_grand());
+        //System.out.println();
+        //System.out.println(Report.sourceAnalysis.getHeader_grand());
     }
 }

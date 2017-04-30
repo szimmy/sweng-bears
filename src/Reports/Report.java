@@ -14,19 +14,19 @@ import java.util.ArrayList;
  * @author Sean Zimmerman
  */
 public abstract class Report {
-    // Collection of Scan objects which will be run on the file.
+    protected ArrayList<Column> data = new ArrayList<Column>();
+    protected ArrayList<Column> grandSummary = new ArrayList<Column>();
     protected ArrayList<Scan> scans;
-
-    // Title of the report to be used in the report.
-    protected final String TITLE = "";
-
-    protected String header;
 
     protected int totalLinesArrayPos;
 
-    // Any generated reports will be added below.
-    public static Report sourceAnalysis = new SourceAnalysis();
+    protected String header;
+    protected String header_grand;
 
+    /**
+     * Accessor for totalLinesArrayPos
+     * @return an array position later used by Controller.FileScanner
+     */
     public int getTotalLinesArrayPos() {
         return totalLinesArrayPos;
     }
@@ -37,12 +37,12 @@ public abstract class Report {
      */
     public abstract ArrayList<Column> generateReportColumns();
 
+    /**
+     * Accessor for scans
+     * @return the scans in this Report
+     */
     public ArrayList<Scan> getScans() {
         return this.scans;
-    }
-
-    public String getTITLE() {
-        return this.TITLE;
     }
 
     /**
@@ -57,7 +57,6 @@ public abstract class Report {
          To convert this to just a String return just append "\n" at the end of every line
          instead of System.out.println(line) after the nested loop.
           */
-
         System.out.println(header);
 
         // Print the data
@@ -92,7 +91,48 @@ public abstract class Report {
         return result;
     }
 
+    /**
+     * Fills the columns with a single row of data (whatever was originally there + data)
+     * @param newData Data to fill it with
+     */
+    public void fillColumn(ArrayList<String> newData) {
+        for(int i = 0; i < data.size(); i++) {
+            data.get(i).addData(newData.get(i));
+        }
+    }
+
+    public ArrayList<Column> getData() {
+        return this.data;
+    }
+
+    public ArrayList<Column> getGrandSummary() {
+        return this.grandSummary;
+    }
+
     public String getHeader() {
         return this.header;
+    }
+
+    public String getHeader_grand() {
+        return this.header_grand;
+    }
+
+    /**
+     * Generates all of the Reports for this report, usually including the normal report + grand summary
+     */
+    public abstract void generateReports();
+
+    /**
+     * Gives you a new report of the given type.
+     * @param input The type of report you want
+     * @return The desired type, or null
+     */
+    public static Report getReport(String input) {
+        if(input.equals("SourceAnalysis")) {
+            return new SourceAnalysis();
+        } else if(input.equals("SourceReview")) {
+            return new SourceReview();
+        }
+        return null;
     }
 }

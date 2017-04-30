@@ -25,6 +25,10 @@ public abstract class Scan {
      */
     public abstract void scan(Statement statement);
 
+    /**
+     * Accessor for KEYWORD
+     * @return the keyword corresponding to this scan
+     */
     public String getKEYWORD() {
         return this.KEYWORD;
     }
@@ -50,10 +54,30 @@ public abstract class Scan {
     }
 
 
-    //If it is possible that the first token isn't followed by a space, needs to be changed.
+    /**
+     * Provides the first token of a given Statement, which can identify what type of Statement it is
+     * (If it is possible that the first token isn't followed by a space, needs to be changed.)
+     * @param statement the Statement in question
+     * @return the Statement's first token
+     */
     protected String getFirstToken(String statement){
         if(statement.trim().indexOf(" ") != -1){
             return statement.trim().substring(0, statement.trim().indexOf(" ")).trim();
+        }
+        return statement.trim();
+    }
+
+    /**
+     * Provides the second token of a Statement (so we can get procedure names).
+     * @param statement The Statement to be read
+     * @return the second token statement
+     */
+    protected String getSecondToken(String statement) {
+        String s;
+        if(statement.trim().contains(" ")){
+            s = statement.trim().substring(statement.trim().indexOf(" ")).trim();
+            s = s.trim();
+            return getFirstToken(s);
         }
         return statement.trim();
     }

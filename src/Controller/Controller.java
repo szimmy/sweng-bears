@@ -1,7 +1,9 @@
+package Controller;
+
 import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import Report.Column;
+
 import Reports.Report;
 import Reports.SourceAnalysis;
 
@@ -13,33 +15,58 @@ import Reports.SourceAnalysis;
 
 public class Controller {
 
+    public static String currentFileName = "";
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
+    private static Report report = new SourceAnalysis(); // default just to have something
+
+    /**
+     * The main method of the program. Outputs the time the program takes to run.
+     * @param args Any filenames (entered at the command line) to be scanned
+     */
     public static void main(String args[]) {
-        long startTime = System.nanoTime();
         chooseFiles(args);
-        long endTime = System.nanoTime();
-        long output = endTime - startTime;
-        System.out.println("Elapsed time in milliseconds: " + output / 1000000);
         System.exit(0);
     }
 
     /**
      * Choose the files and run the scan on them.
+     * @param args Any filenames (entered at the command line) to be scanned
      */
     private static void chooseFiles(String [] args) {
-        ArrayList<ArrayList<String>> scans = new ArrayList<>();
-
         File files[] = getFiles(args);
 
-        for(int i=0;i<files.length;i++) {
-            if(validExtension(getExtension(files[i]))) {
-                scans.add(new FileScanner(files[i], new SourceAnalysis()).run()); // run source analysis as default for now
+        if(args.length != 0) {
+            report = getReport(args[0]);
+        } else {
+            args = new String[1];
+
+            String[] choiceOptions = {"Source Analysis", "Source Review"};
+            int choice = JOptionPane.showOptionDialog(null,
+                    "Which type of summary do you want?",
+                    "Which Report?",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    choiceOptions,
+                    choiceOptions[0]);
+            if (choice == 0) {
+                args[0] = "SourceAnalysis";
+            } else {
+                args[0] = "SourceReview";
             }
+            report = getReport(args[0]);
+        }
+
+        report.generateReportColumns();
+
+        for(int i = 0; i < files.length; i++) {
+            currentFileName = files[i].getName().replaceFirst("[.][^.]+$", ""); // removes the file extension
+            report.fillColumn(new FileScanner(files[i], getReport(args[0])).run());
         }
 
         // Prints the report
-        Report.reportGeneration(Report.sourceAnalysis.getHeader(), fillColumns(scans));
+        report.generateReports();
 
         // An ArrayList of type String to keep track of invalid Files that were selected to scan
         ArrayList<String> invalidFiles = new ArrayList<>();
@@ -57,27 +84,14 @@ public class Controller {
         }
     }
 
-    /**
-     * Fill the Columns of the generated report with the output data
-     * @param data The data to fill the report
-     * @return The filled columns
-     */
-    private static ArrayList<Column> fillColumns(ArrayList<ArrayList<String>> data) {
-        ArrayList<Column> result = Report.sourceAnalysis.generateReportColumns();
+    private static Report getReport(String s) {
+        Report temp = Report.getReport(s);
 
-        Column tempColumn;
-        ArrayList<String> tempArrayList;
-
-        // Add the data from data to the columns
-        for(int i = 0; i < result.size(); i++) { // for every column
-            tempColumn = result.get(i);
-            for(int j = 0; j < data.size(); j++) { // for every row, all rows are the same fixed size by definition
-                tempArrayList = data.get(j);
-                tempColumn.addData(tempArrayList.get(i)); // add the corresponding element to the column from that row
-            }
+        if(temp == null) {
+            return new SourceAnalysis();
+        } else {
+            return temp;
         }
-
-        return result;
     }
 
     /**
@@ -121,9 +135,9 @@ public class Controller {
             File[] files = chooser.getSelectedFiles();
             return files;
         }
-        File[] files = new File[args.length];
-        for (int i = 0; i < args.length; i++) {
-            files[i] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
+        File[] files = new File[args.length-1];
+        for (int i = 1; i < args.length; i++) {
+            files[i-1] = new File(DEFAULTDIRECTORY + "/" + args[i]);
         }
         return files;
     }

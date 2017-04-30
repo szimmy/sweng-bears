@@ -8,7 +8,7 @@ import CMS2Statements.Statement;
  *
  * @author Jeff
  */
-public class TotalDelimtStmtsScanner extends Scan {
+public class DelimiterScanner extends Scan {
 
     // Array containing all Delimiter Statements keywords in the CMS2 language
     // These are the keywords we were pointed to when asked
@@ -16,7 +16,7 @@ public class TotalDelimtStmtsScanner extends Scan {
     String[] delimiters = new String[]{
             "SET", "SWAP", "GOTO", "IF", "VARY", "FIND"};
 
-    public TotalDelimtStmtsScanner() {
+    public DelimiterScanner() {
         KEYWORD = "Delim";
         count = 0;
     }
@@ -30,7 +30,7 @@ public class TotalDelimtStmtsScanner extends Scan {
      */
     public void scan(Statement statement) {
         String text = getFirstToken(statement.getText());
-//        System.out.println(text);
+        System.out.println(text);
         if (!statement.isDirectCode()) {
             for (String s : delimiters) {
                 if (text.equals(s)) {

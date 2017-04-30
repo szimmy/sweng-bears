@@ -12,15 +12,28 @@ public class Entry {
 
     private int value;
 
+    /**
+     * The constructor for the Entry
+     * @param key the String used to identify the Entry
+     * @param value the value corresponding to the key
+     */
     public Entry(String key, int value) {
         this.key = key;
         this.value = value;
     }
 
+    /**
+     * Accessor for key
+     * @return the Entry's key
+     */
     public String getKey() {
         return this.key;
     }
 
+    /**
+     * Accessor for value
+     * @return the Entry's value
+     */
     public int getValue() {
         return this.value;
     }
