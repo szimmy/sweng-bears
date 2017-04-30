@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class HighLevelExecScanner extends LineScan {
 
     boolean inExecBlock;
-    private ArrayList<String> procStartWords;
-    private ArrayList<String> procEndWords;
+    private ArrayList<String> procStartWords = new ArrayList<String>();
+    private ArrayList<String> procEndWords = new ArrayList<String>();
 
     public HighLevelExecScanner() {
         KEYWORD = "Exec";
