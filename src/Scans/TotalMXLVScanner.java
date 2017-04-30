@@ -10,10 +10,8 @@ public class TotalMXLVScanner extends Scan {
     private int maxStructLevel;
     private int currentStructLevel;
 
-    private ArrayList<String> structIncreasers = new ArrayList<>(Arrays.asList(
-            "SYSTEM", // "END-SYSTEM",
-            "SYS-DD",// "END-SYS-DD",
-            "SYS-PROC",// "END-SYS-PROC",
+    //Words that increase structure level, and will be the first token of a statement.
+    private ArrayList<String> structIncreasersFirst = new ArrayList<>(Arrays.asList(
             "LOC-DD",// "END-LOC-DD",
             "PROCEDURE",// "END-PROC",
             "EXEC-PROC",// "END-PROC",
@@ -21,6 +19,12 @@ public class TotalMXLVScanner extends Scan {
             "SYS-PROC-REN",// "END-SYS-PROC",
             "AUTO-DD",// "END-AUTO-DD",
             "HEAD"//, "END-HEAD"
+    ));
+    //Words that increase structture level, and will be the second token of a statement.
+    private ArrayList<String> structIncreasersSecond = new ArrayList<>(Arrays.asList(
+            "SYSTEM", // "END-SYSTEM",
+            "SYS-DD",// "END-SYS-DD",
+            "SYS-PROC"// "END-SYS-PROC",
     ));
 
     private ArrayList<String> structDecreasers = new ArrayList<>(Arrays.asList(
@@ -45,7 +49,9 @@ public class TotalMXLVScanner extends Scan {
     public void scan(Statement statement){
         // This acts under the assumption that the file is formatted properly.
         // If it is not then it max structure level can not be determined.
-        if(structIncreasers.contains(getFirstToken(statement.getText()))){
+
+        if(structIncreasersFirst.contains(getFirstToken(statement.getText())) ||
+                structIncreasersSecond.contains(getSecondToken(statement.getText()))){
             updateStructLevel(currentStructLevel + 1);
         }
         else if(structDecreasers.contains(getFirstToken(statement.getText()))){
