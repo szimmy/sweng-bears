@@ -16,7 +16,7 @@ import Reports.SourceAnalysis;
 public class Controller {
 
     public static String currentFileName = "";
-    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir"); // TODO check if this works on linux
+    private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
     private static Report report = new SourceAnalysis(); // default just to have something
 
@@ -137,7 +137,7 @@ public class Controller {
         }
         File[] files = new File[args.length-1];
         for (int i = 1; i < args.length; i++) {
-            files[i-1] = new File(DEFAULTDIRECTORY + "\\" + args[i]);
+            files[i-1] = new File(DEFAULTDIRECTORY + "/" + args[i]);
         }
         return files;
     }
