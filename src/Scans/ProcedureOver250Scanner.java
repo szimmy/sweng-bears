@@ -9,7 +9,7 @@ import java.util.TreeSet;
 /**
  * This class scans code for procedures with over 250 lines.
  */
-public class ProcedureOver250Scanner extends Scan {
+public class ProcedureOver250Scanner extends LineScan {
 
     private boolean inProcBlock;
     public static TreeSet<String> procNames = new TreeSet<>();
@@ -22,7 +22,8 @@ public class ProcedureOver250Scanner extends Scan {
      */
     public ProcedureOver250Scanner() {
         KEYWORD = "Over250";
-        count = 0; // in this case, count refers to the number of lines in a procedure
+        count = 0;
+        lineCount = 0; // in this case, count refers to the number of lines in a procedure
         inProcBlock = false;
         procName = "";
         //this.fileName = fileName;
@@ -39,14 +40,13 @@ public class ProcedureOver250Scanner extends Scan {
             procName = getSecondToken(statement.getText());
         } else if (!statement.isDirectCode() && s.equals("END-PROC")) {
             inProcBlock = false;
-            count = 0;
-        } else if (inProcBlock) {
-            count += statement.getNumLines();
-            if (count > 250) {
+            if (lineCount > 250) {
                 procNames.add(procName);
-//                fileNames.add(fileName);
-                inProcBlock = false; // no need to check for more lines
+                count++;
             }
+            lineCount = 0;
+        } else if (inProcBlock) {
+            tallyLines(statement);
         }
     }
 
@@ -57,7 +57,7 @@ public class ProcedureOver250Scanner extends Scan {
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = new ArrayList<Entry>();
 
-        data.add(new Entry(KEYWORD + " Procs", procNames.size()));
+        data.add(new Entry(KEYWORD + " Procs", count));
         // the actual names of these procedures can be accessed via procNames, which is public
 
         return data;

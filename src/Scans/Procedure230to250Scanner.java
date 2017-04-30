@@ -14,6 +14,7 @@ public class Procedure230to250Scanner extends Scan {
     private boolean inProcBlock;
     public static TreeSet<String> procNames = new TreeSet<>();
     private String procName;
+    private int occurCount = 0;
 
     /**
      * Constructor for Procedure230to250Scanner.
@@ -23,6 +24,7 @@ public class Procedure230to250Scanner extends Scan {
         count = 0;
         inProcBlock = false;
         procName = "";
+        occurCount = 0;
     }
 
     /**
@@ -36,15 +38,13 @@ public class Procedure230to250Scanner extends Scan {
             procName = getSecondToken(statement.getText());
         } else if (!statement.isDirectCode() && s.equals("END-PROC")) {
             inProcBlock = false;
+            if (count >= 230 && count <= 250) {
+                procNames.add(procName);
+                occurCount++;
+            }
             count = 0;
         } else if (inProcBlock) {
             count++;
-            if (count == 230) {
-                procNames.add(procName);
-            }
-            if (count == 251) {
-                procNames.remove(procName);
-            }
         }
     }
 
@@ -55,7 +55,7 @@ public class Procedure230to250Scanner extends Scan {
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = new ArrayList<Entry>();
 
-        data.add(new Entry(KEYWORD + " Procs", procNames.size()));
+        data.add(new Entry(KEYWORD + " Procs", occurCount));
         // the actual names of these procedures can be accessed via procNames, which is public
 
         return data;
