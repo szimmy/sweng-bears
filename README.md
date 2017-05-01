@@ -9,3 +9,5 @@ Expansion points for the system are:
 - Adding new Scans
 - Adding new Reports
 - Adding new StatementReaders to parse different languages
+
+The JavaDoc for the system is in the JavaDoc directory.
