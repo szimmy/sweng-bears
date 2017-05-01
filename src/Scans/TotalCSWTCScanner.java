@@ -10,6 +10,12 @@ public class TotalCSWTCScanner extends Scan {
     }
 
     public void scan(Statement statement) {
-        // TODO
+        if (!statement.isDirectCode()) {
+            String text = getFirstToken(statement.getText());
+            if (text.equals("CSWITCH")) {
+                System.out.println("GETS INTO IF");
+                count++;
+            }
+        }
     }
 }
