@@ -17,6 +17,9 @@ public class HighLevelExecScanner extends LineScan {
         lineCount = 0;
         inExecBlock = false;
 
+        procStartWords = new ArrayList<>();
+        procEndWords = new ArrayList<>();
+
         procStartWords.add("PROCEDURE");
         procStartWords.add("EXEC-PROC");
 
@@ -32,8 +35,10 @@ public class HighLevelExecScanner extends LineScan {
             else if(procEndWords.contains(firstToken)) {
                 inExecBlock = false;
             }
-            else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")){//Notice that SYS-PROC is not
-                count++;                                                                  //counted as a exec statement.
+            else if(inExecBlock && !getFirstToken(statement.getText()).equals("COMMENT")
+                    && !getFirstToken(statement.getText()).equals("DIRECT")
+                    && !getFirstToken(statement.getText()).equals("CMS-2")){            //Notice that SYS-PROC is not
+                count++;                                                                //counted as a exec statement.
                 tallyLines(statement);
                 statement.setClassified(true);
             }

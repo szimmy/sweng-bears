@@ -22,7 +22,7 @@ public class DirectDataScanner extends Scan {
         String text = statement.getText();
         if (statement.isDirectCode()) {
             for (String s : keyWords) {
-                if (!getFirstToken(text).equals(".") && text.contains(s)) {
+                if (!getFirstToken(text).equals(".") && text.contains(" " + s + " ")) {
                     count++;
                     break;
                 }
