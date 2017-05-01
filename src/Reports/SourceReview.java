@@ -4,6 +4,7 @@ import Scans.*;
 import Report.Column;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * SourceReview is a type of report which scans select features of CMS-2Y code. These features are:
@@ -51,6 +52,7 @@ public class SourceReview extends Report {
         scans.add(new CSwitchRefncScanner());
         scans.add(new DirRefScanner());
         scans.add(new AbstractNotFound());
+        scans.add(new Procedure230to250Scanner()); // is not in the table before the grand summary
     }
 
     /**
@@ -281,5 +283,24 @@ public class SourceReview extends Report {
         Report.reportGeneration(this.header, this.data);
         fillGrandSummary();
         Report.reportGeneration(this.header_grand, this.grandSummary);
+
+        System.out.println("\n\t\t\t\t\tProcedures containing 230-250 statements\n");
+        Iterator<String> itty = Procedure230to250Scanner.procNames.iterator();
+        while (itty.hasNext()) {
+            System.out.print(itty.next() + "\t");
+        }
+        System.out.println("\n\n\t\t\tFiles Containing Procedures Over 250 Lines");
+        System.out.print("FILES\t\tPROCEDURES");
+        Iterator<String> ittyKey = ProcedureOver250Scanner.procNames.keySet().iterator();
+        Iterator<String> ittyValue;
+        String keyName;
+        while (ittyKey.hasNext()) {
+            keyName = ittyKey.next();
+            System.out.print("\n" + keyName + "\t\t");
+            ittyValue = ProcedureOver250Scanner.procNames.get(keyName).iterator();
+            while (ittyValue.hasNext()) {
+                System.out.print(ittyValue.next() + "\t");
+            }
+        }
     }
 }

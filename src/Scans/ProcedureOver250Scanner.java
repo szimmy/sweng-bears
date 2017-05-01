@@ -3,6 +3,7 @@ package Scans;
 import CMS2Statements.Statement;
 import Controller.Controller;
 import Reports.Entry;
+import javafx.collections.transformation.SortedList;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -16,7 +17,7 @@ public class ProcedureOver250Scanner extends LineScan {
     private boolean inProcBlock;
 //    public static TreeSet<String> procNames = new TreeSet<>();
 //    public static TreeSet<String> fileNames = new TreeSet<>();
-    public static TreeMap<String, String> procNames = new TreeMap<>();
+    public static TreeMap<String, TreeSet<String>> procNames = new TreeMap<>();
     private String procName;
 
     /**
@@ -43,7 +44,10 @@ public class ProcedureOver250Scanner extends LineScan {
         } else if (!statement.isDirectCode() && s.equals("END-PROC")) {
             inProcBlock = false;
             if (lineCount > 250) {
-                procNames.put(Controller.currentFileName, procName);
+                if (!procNames.keySet().contains(Controller.currentFileName)) {
+                    procNames.put(Controller.currentFileName, new TreeSet<String>());
+                }
+                procNames.get(Controller.currentFileName).add(procName);
                 count++;
             }
             lineCount = 0;
