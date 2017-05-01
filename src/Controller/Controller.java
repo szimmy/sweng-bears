@@ -16,6 +16,7 @@ import Reports.SourceAnalysis;
 public class Controller {
 
     public static String currentFileName = "";
+    public static String currentFileNameFull = ""; // needed for IncorrectFileExtension
     private final static String DEFAULTDIRECTORY = System.getProperty("user.dir");
 
     private static Report report = new SourceAnalysis(); // default just to have something
@@ -61,7 +62,8 @@ public class Controller {
         report.generateReportColumns();
 
         for(int i = 0; i < files.length; i++) {
-            currentFileName = files[i].getName().replaceFirst("[.][^.]+$", ""); // removes the file extension
+            currentFileNameFull = files[i].getName();
+            currentFileName = currentFileNameFull.replaceFirst("[.][^.]+$", ""); // removes the file extension
             report.fillColumn(new FileScanner(files[i], getReport(args[0])).run());
         }
 
