@@ -5,7 +5,7 @@ import Reports.Entry;
 
 import java.util.ArrayList;
 
-public class HighLevelNonCommentScanner extends Scan {
+public class HighLevelNonCommentScanner extends LineScan {
 
     public HighLevelNonCommentScanner() {
         KEYWORD = "NonCmt";
@@ -13,13 +13,15 @@ public class HighLevelNonCommentScanner extends Scan {
     }
 
     public void scan(Statement statement) {
-        // TODO
+        if(!statement.isDirectCode() && !getFirstToken(statement.getText()).equals("COMMENT")){
+            tallyLines(statement);
+        }
     }
 
     public ArrayList<Entry> getData() {
         ArrayList<Entry> data = new ArrayList<Entry>();
 
-        data.add(new Entry(KEYWORD + " Lines", count));
+        data.add(new Entry(KEYWORD + " Lines", lineCount));
 
         return data;
     }
