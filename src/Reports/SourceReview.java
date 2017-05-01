@@ -302,5 +302,6 @@ public class SourceReview extends Report {
                 System.out.print(ittyValue.next() + "\t");
             }
         }
+        System.out.println("\n");
     }
 }
